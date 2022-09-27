@@ -23,22 +23,27 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+//新規登録、ログイン時のルーティング
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
+
 //Laravel側でアクセス制限を行いたいルーティングにミドルウェアのauth:sanctumを設定する。
 Route::middleware('auth:sanctum')->group(function() {
+    //ログアウト時のルーティング
     Route::post('logout', [AuthController::class, 'logout']);
+
+    //Favorite関連のルーティング
+    Route::post('favorite/index', [FavoriteController::class, 'index']);
+    Route::post('favorite/store', [FavoriteController::class, 'store']);
+    Route::post('favorite/delete', [FavoriteController::class, 'delete']);
+
+    //SearchCriteria関連のルーティング
+    Route::post('criteria/index', [SearchCriteriaController::class, 'index']);
+    Route::post('criteria/store', [SearchCriteriaController::class, 'store']);
+    Route::post('criteria/delete', [SearchCriteriaController::class, 'delete']);
 });
 
-//Favorite関連のルーティング
-Route::post('favorite/index', [FavoriteController::class, 'index']);
-Route::post('favorite/store', [FavoriteController::class, 'store']);
-Route::post('favorite/delete', [FavoriteController::class, 'delete']);
 
-//SearchCriteria関連のルーティング
-Route::post('criteria/index', [SearchCriteriaController::class, 'index']);
-Route::post('criteria/store', [SearchCriteriaController::class, 'store']);
-Route::post('criteria/delete', [SearchCriteriaController::class, 'delete']);
 
 //ソーシャルログインのためのルーティング
 Route::get("login/{provider}", [

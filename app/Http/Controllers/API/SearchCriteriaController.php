@@ -35,8 +35,8 @@ class SearchCriteriaController extends Controller
                 ]);
             }
         }
-
     }
+
 
     public function store (Request $request ) {
         $user = User::where('id', $request->userId)->first();
