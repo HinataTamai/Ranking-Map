@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "es2021",                                  
+    "jsx": "react-jsx",                                      
+    "module": "umd",             
+    "moduleResolution": "node",                   
+    "esModuleInterop": true,                             
+    "forceConsistentCasingInFileNames": true,            
+    "strict": true,                                      
+    "skipLibCheck": true,
+    "typeRoots": [
+      "resources/ts/@types",
+      "node_modules/@types"
+    ],                         
+    "paths": {
+      
+    }
+  }
+}
