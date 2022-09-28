@@ -2,7 +2,7 @@ import React, { useState, FC, memo } from "react"
 import { HeaderAndFooterLayout } from "../templates/HeaderAndFooterLayout";
 import { useAuth } from "../../hooks/api/useAuth";
 import { Stack } from "@mui/system";
-import { Button, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField } from "@mui/material";
+import { Button, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField } from "@mui/material";
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { AlertMessage } from "../atoms/AlertMessage";
@@ -13,7 +13,11 @@ export type registerInputType = {
     email: string;
     password: string;
     showPassword: boolean;
-    error_list: {name:string, email:string, password:string};
+    error_list: {
+        name: string | undefined,
+        email: string | undefined, 
+        password: string | undefined
+    };
 }
 
 const Register:FC  =  memo(() => {
@@ -78,26 +82,26 @@ const Register:FC  =  memo(() => {
                     onChange={handleInput}
                     helperText={registerInput.error_list.email}
                     />
-                <FormControl variant="outlined">
-                <InputLabel>パスワード</InputLabel>
-                <OutlinedInput
-                    error={Boolean(registerInput.error_list.password)}
-                    name="password"
-                    type={registerInput.showPassword ? 'text' : 'password'}
-                    value={registerInput.password}
-                    onChange={handleInput}
-                    label='パスワード'
-                    endAdornment={
-                    <InputAdornment position="end">
-                        <IconButton
-                        onClick={handleClickShowPassword}
-                        edge="end"
-                        >
-                        {registerInput.showPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                    </InputAdornment>
-                    }
+                <FormControl variant="outlined" error={Boolean(registerInput.error_list.password)}>
+                    <InputLabel>パスワード</InputLabel>
+                    <OutlinedInput
+                        name="password"
+                        type={registerInput.showPassword ? 'text' : 'password'}
+                        value={registerInput.password}
+                        onChange={handleInput}
+                        label='パスワード'
+                        endAdornment={
+                        <InputAdornment position="end">
+                            <IconButton
+                            onClick={handleClickShowPassword}
+                            edge="end"
+                            >
+                            {registerInput.showPassword ? <VisibilityOff /> : <Visibility />}
+                            </IconButton>
+                        </InputAdornment>
+                        }
                     />
+                    <FormHelperText>{registerInput.error_list.password}</FormHelperText>
                 </FormControl>
                 <Button variant="contained" type="submit">登録</Button>
                 </Stack>

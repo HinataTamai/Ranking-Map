@@ -11,7 +11,7 @@ import CriteriaSetting from "../components/pages/CriteriaSetting";
 
 const Router:FC = memo(() => {
     //トークンの有無でルーティングを変更
-    if( !localStorage.getItem('auth_token') ) { //未ログイン時
+    if( !localStorage.getItem('user_id') ) { //未ログイン時
         return(
             <Routes>
                 <Route  path='/' element={ <Search /> } />

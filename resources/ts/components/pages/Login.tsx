@@ -1,7 +1,7 @@
 import React, { useState, FC, memo } from "react"
 import { HeaderAndFooterLayout } from "../templates/HeaderAndFooterLayout";
 import { useAuth } from "../../hooks/api/useAuth";
-import { Button, Divider, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField } from "@mui/material";
+import { Button, Divider, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField } from "@mui/material";
 import { Box, Stack } from "@mui/system";
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
@@ -12,7 +12,10 @@ export type loginInputType = {
     email: string;
     password: string;
     showPassword: boolean;
-    error_list: {email:string, password:string};
+    error_list: {
+        email: string | undefined, 
+        password: string | undefined
+    };
 }
 
 
@@ -73,26 +76,27 @@ const Login:FC  =  memo(() => {
                             onChange={handleInput}
                             helperText={loginInput.error_list.email}
                             />
-                        <FormControl variant="outlined">
-                        <InputLabel>パスワード</InputLabel>
-                        <OutlinedInput
-                            error={Boolean(loginInput.error_list.password)}
-                            name="password"
-                            type={loginInput.showPassword ? 'text' : 'password'}
-                            value={loginInput.password}
-                            onChange={handleInput}
-                            label='パスワード'
-                            endAdornment={
-                            <InputAdornment position="end">
-                                <IconButton
-                                onClick={handleClickShowPassword}
-                                edge="end"
-                                >
-                                {loginInput.showPassword ? <VisibilityOff /> : <Visibility />}
-                                </IconButton>
-                            </InputAdornment>
-                            }
+                        <FormControl variant="outlined" error={Boolean(loginInput.error_list.password)}>
+                            <InputLabel>パスワード</InputLabel>
+                            <OutlinedInput
+                                error={Boolean(loginInput.error_list.password)}
+                                name="password"
+                                type={loginInput.showPassword ? 'text' : 'password'}
+                                value={loginInput.password}
+                                onChange={handleInput}
+                                label='パスワード'
+                                endAdornment={
+                                <InputAdornment position="end">
+                                    <IconButton
+                                    onClick={handleClickShowPassword}
+                                    edge="end"
+                                    >
+                                    {loginInput.showPassword ? <VisibilityOff /> : <Visibility />}
+                                    </IconButton>
+                                </InputAdornment>
+                                }
                             />
+                            <FormHelperText>{loginInput.error_list.password}</FormHelperText>
                         </FormControl>
                         <Button variant="contained" type="submit">login</Button>
                     </Stack>

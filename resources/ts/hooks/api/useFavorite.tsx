@@ -32,6 +32,15 @@ export const useFavorite = () => {
 
         axios.post('/api/favorite/store', data).then(res => {
             console.log(res.data);
+        }).catch(e => {
+            console.log(e);
+            changeAlertStatus(
+                true,
+                'お気に入りの登録に失敗しました。',
+                'error',
+                'bottom',
+                'center'
+            );
         });
     }
 
@@ -47,6 +56,15 @@ export const useFavorite = () => {
 
         axios.post('/api/favorite/delete', data).then( res => {
             console.log(res.data);
+        }).catch(e => {
+            console.log(e);
+            changeAlertStatus(
+                true,
+                'お気に入り解除に失敗しました。',
+                'error',
+                'bottom',
+                'center'
+            );
         });
     }
 
@@ -90,6 +108,15 @@ export const useFavorite = () => {
 
         await axios.post('/api/favorite/index', data).then( res => {
             favorites = res.data[0].favorites;
+        }).catch(e => {
+            console.log(e);
+            changeAlertStatus(
+                true,
+                'お気に入り情報の取得に失敗しました。',
+                'error',
+                'bottom',
+                'center'
+            );
         });
 
         return favorites.map(favorite => {

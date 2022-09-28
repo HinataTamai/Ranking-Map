@@ -138,7 +138,6 @@ const Search:FC  =  memo(() => {
     
     useEffect(() => {
         if(isLogin) {
-            console.log('isLogin');
             indexSearchCriteria().then(res => {
                 if(res.status === 200){
                     setLocation(res.location);

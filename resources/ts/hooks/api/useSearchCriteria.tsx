@@ -29,18 +29,31 @@ export const useSearchCriteria = () => {
         }
         await axios.post('/api/criteria/index', data).then(res => {
             const data = res.data;
-
-            criteria.status = data.status == undefined ? 400 : data.status;
-            criteria.location = data.location == undefined ? '' : data.location;
-            criteria.keyword = data.keyword == undefined ? '' : data.keyword;
-            criteria.radius = data.radius == undefined ? '' : data.radius;
-            criteria.rateCriteria = data.rateCriteria == undefined ? '' : data.rateCriteria;
-            criteria.ratingsTotalCriteria =
-                data.ratingsTotalCriteria == undefined ? '' : data.ratingsTotalCriteria;
-            criteria.distanceCriteria = 
-            data.distanceCriteria == undefined ? '' : data.distanceCriteria;
-            criteria.onlyIsOpen = data.onlyIsOpen == undefined ? '' : data.onlyIsOpen;
+            if(data.status == 200) {
+                criteria.status = data.status == undefined ? 400 : data.status;
+                criteria.location = data.location == undefined ? '' : data.location;
+                criteria.keyword = data.keyword == undefined ? '' : data.keyword;
+                criteria.radius = data.radius == undefined ? '' : data.radius;
+                criteria.rateCriteria = data.rateCriteria == undefined ? '' : data.rateCriteria;
+                criteria.ratingsTotalCriteria =
+                    data.ratingsTotalCriteria == undefined ? '' : data.ratingsTotalCriteria;
+                criteria.distanceCriteria = 
+                data.distanceCriteria == undefined ? '' : data.distanceCriteria;
+                criteria.onlyIsOpen = data.onlyIsOpen == undefined ? '' : data.onlyIsOpen;
+            } else if (data.status == 204 || data.status == 401) {
+                return {status: data.status};
+            }
+        }).catch(e => {
+            console.log(e);
+            changeAlertStatus(
+                true,
+                '検索条件情報の取得に失敗しました。',
+                'success',
+                'bottom',
+                'center'
+            );
         }); 
+
 
         return criteria;
     }
@@ -68,26 +81,33 @@ export const useSearchCriteria = () => {
         }
 
         await axios.post('/api/criteria/store', data).then(res => {
-            switch (res.data.status) {
-                case 200:
-                    changeAlertStatus(
-                        true,
-                        '検索条件を変更しました。',
-                        'success',
-                        'bottom',
-                        'center'
-                    );
-                break;
-                default :
-                    changeAlertStatus(
-                        true,
-                        '検索条件の変更に失敗しました。',
-                        'error',
-                        'bottom',
-                        'center'
-                    );
-                break;
+            if( res.data.status == 200) {
+                navigate('/');
+                changeAlertStatus(
+                    true,
+                    '検索条件を変更しました。',
+                    'success',
+                    'bottom',
+                    'center'
+                );
+            } else {
+                changeAlertStatus(
+                    true,
+                    '検索条件の変更に失敗しました。',
+                    'success',
+                    'bottom',
+                    'center'
+                );
             }
+        }).catch(e => {
+            console.log(e);
+            changeAlertStatus(
+                true,
+                '検索条件の変更に失敗しました。',
+                'success',
+                'bottom',
+                'center'
+            );
         }); 
     }
 
@@ -96,27 +116,33 @@ export const useSearchCriteria = () => {
         const userId = localStorage.getItem('user_id');
         const data = { userId }
         await axios.post('api/criteria/delete', data).then(res => {
-            switch (res.data.status) {
-                case 200:
-                    navigate('/')
-                    changeAlertStatus(
-                        true,
-                        '検索条件を初期化しました。',
-                        'success',
-                        'bottom',
-                        'center'
-                    );
-                break;
-                default :
-                    changeAlertStatus(
-                        true,
-                        '検索条件の初期化に失敗しました。',
-                        'error',
-                        'bottom',
-                        'center'
-                    );
-                break;
+            if( res.data.status == 200) {
+                navigate('/');
+                changeAlertStatus(
+                    true,
+                    '検索条件を初期化しました。',
+                    'success',
+                    'bottom',
+                    'center'
+                );
+            } else {
+                changeAlertStatus(
+                    true,
+                    '検索条件の初期化に失敗しました。',
+                    'success',
+                    'bottom',
+                    'center'
+                );
             }
+        }).catch(e => {
+            console.log(e);
+            changeAlertStatus(
+                true,
+                '検索条件の初期化に失敗しました。',
+                'success',
+                'bottom',
+                'center'
+            );
         });
     }
 
