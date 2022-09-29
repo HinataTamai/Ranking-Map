@@ -43,4 +43,8 @@ return [
         'redirect' => env('LINE_REDIRECT_URI') 
     ],
 
+    'google-map' => [
+        'apikey' => env('GOOGLE_MAP_API'),
+    ],
+
 ];
