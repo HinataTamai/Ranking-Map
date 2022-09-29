@@ -18,6 +18,7 @@ import { ResultsTableHead } from './ResultsTableHead';
 import { SearchCriteriaContext } from '../../providers/SearchCriteriaProvider';
 import { useFavorite } from '../../hooks/api/useFavorite';
 import { favoritesType } from '../pages/Favorite';
+import { useAuth } from '../../hooks/api/useAuth';
 
 export type displayItem = {
     label:string,
@@ -29,6 +30,8 @@ export const ResultsTable: FC = memo( () => {
 
     const { results } = useContext(SearchCriteriaContext);
     const { indexFavorite } = useFavorite();
+    const { confirmIsLogin } = useAuth();
+    const isLogin = confirmIsLogin();
 
     const rowsPerPageSelects = [
         {
@@ -167,9 +170,11 @@ export const ResultsTable: FC = memo( () => {
     };
 
     useEffect(() => {
-        indexFavorite().then(res => {
-            setFavorites(res);
-        })
+        if(isLogin) {
+            indexFavorite().then(res => {
+                setFavorites(res);
+            })
+        }
     },[]);
 
     return(

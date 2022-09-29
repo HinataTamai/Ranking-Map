@@ -65,11 +65,7 @@ export const ResultsTableRow:FC<Props> = memo( ( props ) => {
         setOpen( prev => !prev);
     }
     const handleClickFavorite = () => {
-        setIsFavorite( prev => !prev);
-    }
-
-    useEffect(() => {
-        if(isFavorite){
+        if(!isFavorite){
             const rate = String(result.rating);
             const userRatingsTotal = String(result.userRatingsTotal);
             storeFavorite(
@@ -83,7 +79,10 @@ export const ResultsTableRow:FC<Props> = memo( ( props ) => {
         } else {
             deleteFavorite(result.destinationPlaceId);
         }
-    },[isFavorite]);
+        setIsFavorite( prev => !prev);
+    }
+
+
 
     useEffect(() => {
         favorites?.forEach(favorite => {
