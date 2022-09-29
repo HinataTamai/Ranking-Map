@@ -1,14 +1,17 @@
-import React, { useState, FC, memo } from "react"
+import React, { useState, FC, memo, useEffect } from "react"
 import { HeaderAndFooterLayout } from "../templates/HeaderAndFooterLayout";
 import { useAuth } from "../../hooks/api/useAuth";
-import { Stack } from "@mui/system";
-import { Button, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField } from "@mui/material";
+import { Box, Stack } from "@mui/system";
+import { Button, Checkbox, Chip, Divider, FormControl, FormControlLabel, FormHelperText, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField } from "@mui/material";
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import GoogleIcon from './../../../images/btn_google_signin_dark_normal_web@2x.png';
 import { AlertMessage } from "../atoms/AlertMessage";
+import axios from "axios";
 
 
 export type registerInputType = {
+    remember: boolean;
     name: string;
     email: string;
     password: string;
@@ -25,6 +28,7 @@ const Register:FC  =  memo(() => {
     const { registerSubmit } = useAuth();
 
     const [registerInput, setRegister] = useState<registerInputType>({
+        remember: false,
         name: '',
         email: '',
         password: '',
@@ -42,13 +46,25 @@ const Register:FC  =  memo(() => {
             [e.target.name]: e.target.value 
         }));
     }
-
     const handleClickShowPassword = () => {
         setRegister( prevState => ({
             ...prevState,
             showPassword: !prevState.showPassword,
         }));
     };
+    const handleClickRemember = () => {
+        setRegister(prevState => ({
+            ...prevState,
+            remember: !prevState.remember,
+        }));
+    }
+
+    const onClickButton = (e: React.MouseEvent<HTMLElement>) => {
+        const provider = e.currentTarget.id;
+        axios.get(`/api/login/${provider}`).then((res) => {
+            window.location.href = res.data.redirect_url;
+        });
+    }
 
     const onSubmit = (
         e: React.FormEvent<HTMLFormElement>,
@@ -61,10 +77,16 @@ const Register:FC  =  memo(() => {
         <HeaderAndFooterLayout>
             <Stack
                 justifyContent='center'
-                sx={{width:'85%', height:'70%', mx: 'auto'}}
+                sx={{
+                    width: {xs: '85%', sm: '65%', md: '50%'},
+                    maxWidth: 600,
+                    height:'70%', 
+                    mx: 'auto', 
+                    mt: '5vh'
+                }}
             >
             <form onSubmit={onSubmit}>
-                <Stack spacing={3}>
+                <Stack spacing={2}>
                 <TextField
                     error={Boolean(registerInput.error_list.name)}
                     label='ユーザ名'
@@ -103,9 +125,27 @@ const Register:FC  =  memo(() => {
                     />
                     <FormHelperText>{registerInput.error_list.password}</FormHelperText>
                 </FormControl>
+                <FormControlLabel 
+                    control={<Checkbox name='remember' checked={registerInput.remember} onChange={handleClickRemember} />} 
+                    label="ログイン状態を維持する" 
+                />
                 <Button variant="contained" type="submit">登録</Button>
                 </Stack>
             </form>
+            <Stack spacing={2} sx={{mt:3}}>
+                <Box><Divider><Chip label='or'/></Divider></Box>
+                <Box onClick={onClickButton} id='google'>
+                    <Box 
+                        component='img' 
+                        src={ GoogleIcon }  
+                        sx={{
+                            height: {xs: '60%', sm: '70%'}, 
+                            mx: 'auto', 
+                            display: 'block'
+                        }}
+                    />
+                </Box>
+            </Stack>
             </Stack>
             <AlertMessage/>
         </HeaderAndFooterLayout>

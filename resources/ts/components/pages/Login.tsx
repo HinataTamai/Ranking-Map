@@ -1,14 +1,16 @@
-import React, { useState, FC, memo } from "react"
+import React, { useState, FC, memo, useEffect } from "react"
 import { HeaderAndFooterLayout } from "../templates/HeaderAndFooterLayout";
 import { useAuth } from "../../hooks/api/useAuth";
-import { Button, Divider, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField } from "@mui/material";
+import { Button, Checkbox, Chip, Divider, FormControl, FormControlLabel, FormHelperText, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField } from "@mui/material";
 import { Box, Stack } from "@mui/system";
+import GoogleIcon from './../../../images/btn_google_signin_dark_normal_web@2x.png';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { AlertMessage } from "../atoms/AlertMessage";
 import axios from "axios";
 
 export type loginInputType = {
+    remember: boolean;
     email: string;
     password: string;
     showPassword: boolean;
@@ -24,7 +26,9 @@ const Login:FC  =  memo(() => {
 
     const { loginSubmit } = useAuth();
 
+
     const [loginInput, setLogin] = useState<loginInputType>({
+        remember: false,
         email: '',
         password: '',
         showPassword: false,
@@ -40,13 +44,18 @@ const Login:FC  =  memo(() => {
             [e.target.name]: e.target.value
         }));
     }
-
     const handleClickShowPassword = () => {
         setLogin(prevState => ({
             ...prevState,
             showPassword: !prevState.showPassword,
         }));
     };
+    const handleClickRemember = () => {
+        setLogin(prevState => ({
+            ...prevState,
+            remember: !prevState.remember,
+        }));
+    }
 
     const onSubmit = (e: React.FormEvent<HTMLFormElement>,) => {
         loginSubmit(e, loginInput, setLogin);
@@ -59,11 +68,19 @@ const Login:FC  =  memo(() => {
         });
     }
 
+
+
     return(
         <HeaderAndFooterLayout>
             <Stack
                 justifyContent='center'
-                sx={{width:'85%', height:'70%', mx: 'auto'}}
+                sx={{
+                    width: {xs: '85%', sm: '65%', md: '50%'},
+                    maxWidth: 600,
+                    height:'70%', 
+                    mx: 'auto', 
+                    mt: '5vh'
+                }}
             >
                 <form onSubmit={onSubmit}>
                     <Stack spacing={3}>
@@ -98,13 +115,25 @@ const Login:FC  =  memo(() => {
                             />
                             <FormHelperText>{loginInput.error_list.password}</FormHelperText>
                         </FormControl>
+                        <FormControlLabel 
+                            control={<Checkbox name='remember' checked={loginInput.remember} onChange={handleClickRemember} />} 
+                            label="ログイン状態を維持する" 
+                        />
                         <Button variant="contained" type="submit">login</Button>
                     </Stack>
                 </form>
-                <Stack spacing={3} sx={{mt:3}}>
-                    <Divider />
-                    <Box onClick={onClickButton} id='google' >
-                        <img src="https://developers.google.com/identity/images/btn_google_signin_dark_normal_web.png" />
+                <Stack spacing={2} sx={{mt:3}}>
+                    <Box><Divider><Chip label='or'/></Divider></Box>
+                    <Box onClick={onClickButton} id='google'>
+                        <Box 
+                            component='img' 
+                            src={ GoogleIcon }  
+                            sx={{
+                                height: {xs: '60%', sm: '70%'}, 
+                                mx: 'auto', 
+                                display: 'block'
+                            }}
+                        />
                     </Box>
                 </Stack>
             </Stack>

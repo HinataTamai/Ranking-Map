@@ -29,7 +29,9 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => $request->password
         ];
-        if (Auth::attempt($credentials)){
+        $remember = $request->remember;
+
+        if (Auth::attempt($credentials, $remember)){
             $request->session()->regenerate();
             $user = User::where('email', $request->email)->first();
 
@@ -48,8 +50,9 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => $request->password
         ];
-
-        if (! Auth::attempt($credentials)){
+        $remember = $request->remember;
+        
+        if (! Auth::attempt($credentials, $remember)){
             // $error = $validator->errors()->toArray();
             return response()->json([
                 'status' => 401,

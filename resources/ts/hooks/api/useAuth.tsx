@@ -18,6 +18,7 @@ export const useAuth = () => {
         e.preventDefault();
 
         const data = {
+            remember: registerInput.remember,
             name: registerInput.name,
             email: registerInput.email,
             password: registerInput.password,
@@ -59,6 +60,7 @@ export const useAuth = () => {
         e.preventDefault();
 
         const data = {
+            remember: loginInput.remember,
             email: loginInput.email,
             password: loginInput.password,
         }
