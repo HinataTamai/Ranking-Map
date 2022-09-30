@@ -8,10 +8,15 @@ import LoginCallback from "../components/pages/LoginCallback";
 import SearchResults from "../components/pages/SearchResults";
 import Favorite from "../components/pages/Favorite";
 import CriteriaSetting from "../components/pages/CriteriaSetting";
+import { useAuth } from "../hooks/api/useAuth";
 
 const Router:FC = memo(() => {
+
+    const { confirmIsLogin } = useAuth();
+    const isLogin = confirmIsLogin();
+
     //トークンの有無でルーティングを変更
-    if( !localStorage.getItem('user_id') ) { //未ログイン時
+    if( !isLogin ) { //未ログイン時
         return(
             <Routes>
                 <Route  path='/' element={ <Search /> } />
