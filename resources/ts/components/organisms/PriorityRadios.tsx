@@ -1,4 +1,5 @@
 import { Divider, FormControl } from "@mui/material";
+import { Box, Stack } from "@mui/system";
 import React, { FC, memo, useContext } from "react";
 import { SearchCriteriaContext } from "../../providers/SearchCriteriaProvider";
 import { PriorityRadio } from "../molecules/PriorityRadio";
@@ -20,6 +21,8 @@ export const PriorityRadios:FC<Props> = memo( (props) => {
 
     return(
         <FormControl>
+            <Stack spacing={2} >
+            <Box>
             <PriorityRadio
                 value={rateValue}
                 label_1="高い順"
@@ -32,8 +35,10 @@ export const PriorityRadios:FC<Props> = memo( (props) => {
                 radioTitle="レビュー評価"
                 my='10px'
                 onChange={handleRate}
-                />
+            />
             <Divider />
+            </Box>
+            <Box>
             <PriorityRadio
                 value={ratingsTotalValue}
                 label_1="多い順"
@@ -46,8 +51,10 @@ export const PriorityRadios:FC<Props> = memo( (props) => {
                 radioTitle="評価数"
                 my='10px'
                 onChange={handleRatingsTotal}
-                />
+            />
             <Divider />
+            </Box>
+            <Box>
             <PriorityRadio
                 value={distanceValue}
                 label_1="近い順"
@@ -62,6 +69,8 @@ export const PriorityRadios:FC<Props> = memo( (props) => {
                 onChange={handleDistance}
             />
             <Divider />
+            </Box>
+            </Stack>
         </FormControl>
     )
 })

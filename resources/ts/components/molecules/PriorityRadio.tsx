@@ -24,20 +24,23 @@ export const PriorityRadio:FC<Props> = memo( (props) => {
 
     return(
         <>
-        <FormControl sx={{my: my}}>
-            <FormLabel required={required}>{radioTitle}</FormLabel>
+        <FormControl sx={{my: my, width: '100%' }}>
+            <FormLabel required={required} sx={{textAlign: 'centeer'}}>{radioTitle}</FormLabel>
             <RadioGroup
                 row 
                 onChange={onChange}
                 value={value}
+                sx={{display: 'flex', justifyContent: 'flex-end'}}
             >
                 <Stack 
                     flexWrap={'wrap'} 
-                    direction={'row'} 
+                    direction={{sm: 'row'}}
+                    justifyContent={{sm: 'center'}}
                     spacing={{
                         sm:2,
                         md:3
                     }}
+                    sx={{width:{xs: '40%', sm: '100%'}}}
                 >
                 <RadioButton label={label_1} value={value_1} />
                 <RadioButton label={label_2} value={value_2} />

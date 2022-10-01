@@ -284,13 +284,14 @@ export const useSort = () => {
             }
             sumIndexes.push(sumIndexNumbers)
         }
+        
 
 
         //「results」内のそれぞれのデータの「sumRank」の値を更新
         for(let i= 0; i < results.length; i++) {
             results[i].sumRank = sumIndexes[i]
         }
-        console.log(results)
+
 
         //更新された「sumRank」の値で「results」を昇順にソート
         results.sort((a,b) => {
