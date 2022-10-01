@@ -21,6 +21,7 @@ import { FavoriteTableRow } from './FavoriteTableRow';
 import { useFavorite } from '../../hooks/api/useFavorite';
 import { favoritesType, favoriteType } from '../pages/Favorite';
 import { AlertMessage } from '../atoms/AlertMessage';
+import { AuthContext } from '../../providers/AuthProvider';
 
 export type displayItem = {
     label:string,
@@ -58,6 +59,7 @@ export const FavoriteTable:FC = () => {
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [favorites,setFavorites] = useState<favoritesType>();
     const { indexFavorite } = useFavorite();
+    const { userInfo } = useContext(AuthContext);
     const { isLoading, displayItems } = useContext(DataTableContext);
     
     let emptyRows = 0;
@@ -67,7 +69,6 @@ export const FavoriteTable:FC = () => {
         event: React.ChangeEvent<unknown>,
         newPage: number,
         ) => {
-            console.log(page)
             setPage(newPage - 1);
     };
     
@@ -80,10 +81,11 @@ export const FavoriteTable:FC = () => {
 
 
     useEffect(() => {
+        
         indexFavorite().then(res => {
             setFavorites(res);
         });
-    },[deleteCount])
+    },[deleteCount,userInfo.id])
 
 
     if(!favorites) {

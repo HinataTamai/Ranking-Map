@@ -56,7 +56,6 @@ export const FavoriteTableRow:FC<Props> = ( props ) => {
     const [open,setOpen] = useState(false);
     const { displayItems } = useContext(DataTableContext);
 
-    const { confirmIsLogin } = useAuth();
     const { deleteFavorite } = useFavorite()
     const { createCollapseDisplayItems } = useDataTable();
     let collapseDisplayItems = createCollapseDisplayItems();
@@ -77,7 +76,7 @@ export const FavoriteTableRow:FC<Props> = ( props ) => {
     const onClick = () => {
     }
 
-    console.log('renderRow')
+
 
     return(
         <>

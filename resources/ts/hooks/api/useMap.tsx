@@ -64,8 +64,7 @@ export const useMap = () => {
                     lat :position.coords.latitude,
                     lng: position.coords.longitude
                 };
-                console.log(latLng.lat)
-                console.log(latLng.lng)
+
                 resolve(latLng);
             },(error) => {
                 //取得に失敗した場合のエラーログの出し分け
@@ -127,8 +126,7 @@ export const useMap = () => {
                 status: google.maps.places.PlacesServiceStatus,
             ) => {
                 if (status === google.maps.places.PlacesServiceStatus.OK){
-                    
-                    console.log('statusIsOK')
+
                     if(results != null) {
                         if(results[0].geometry && results[0].geometry.location) {
                             designatedLocation.lat = results[0].geometry.location.lat();
@@ -303,7 +301,6 @@ export const useMap = () => {
     //引数：無し。
     //返却：無し。（関数内でStateの更新まで行うため）
     const getEstablishmentsData = async () => {
-        console.log('getEstablishmentsData');
         //ローディングを開始
         setIsLoading(true);
 

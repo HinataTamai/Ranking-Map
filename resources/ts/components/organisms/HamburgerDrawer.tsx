@@ -9,12 +9,72 @@ import ListItemText from '@mui/material/ListItemText';
 import { IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { HamburgerDrawerContext } from '../../providers/HamburgerDrawerProvider';
+import { AuthContext } from '../../providers/AuthProvider';
+import { useNavigate } from 'react-router';
+import LoginIcon from '@mui/icons-material/Login';
+import LogoutIcon from '@mui/icons-material/Logout';
+import HowToRegIcon from '@mui/icons-material/HowToReg';
+import StarIcon from '@mui/icons-material/Star';
+import SettingsIcon from '@mui/icons-material/Settings';
+import SearchIcon from '@mui/icons-material/Search';
+import { useAuth } from '../../hooks/api/useAuth';
 
 
 export const HamburgerDrawer:FC = memo( () => {
 
     const [ isOpen, setIsOpen] = useState(false);
-    const { drawerItems } = useContext(HamburgerDrawerContext);
+    const  navigate  = useNavigate();
+    const { userInfo } = useContext(AuthContext);
+    const { logoutSubmit, confirmIsLogin } = useAuth(); 
+
+    const handleClickRegister = () => navigate('/register');
+    const handleClickLogin = () => navigate('/login');
+    const handleClickLogout = () => logoutSubmit();
+    const handleClickFavorite = () => navigate('/favorite');
+    const handleClickSetting = () => navigate('/setting');
+    const handleClickSearch = () => navigate('/');
+
+    const drawerItems = userInfo.isLogin ?
+        [
+            {
+            text: '検索ページ',
+            icon: <SearchIcon />,
+            onClick: handleClickSearch
+            },
+            {
+            text: 'ログアウト',
+            icon: <LogoutIcon/>,
+            onClick: handleClickLogout
+            },
+            {
+            text: 'お気に入り',
+            icon: <StarIcon color='primary'/>,
+            onClick: handleClickFavorite
+            },
+            {
+            text: '検索条件の設定',
+            icon: <SettingsIcon/>,
+            onClick: handleClickSetting
+            },
+        ]
+        :
+        [
+            {
+                text: '検索ページ',
+                icon: <SearchIcon />,
+                onClick: handleClickSearch
+            },
+            {
+                text: '新規登録',
+                icon: <HowToRegIcon/>,
+                onClick: handleClickRegister
+            },
+            {
+                text: 'ログイン',
+                icon: <LoginIcon/>,
+                onClick: handleClickLogin
+            },
+        ];
 
     //ドロワーを開閉する関数
     const toggleDrawer =

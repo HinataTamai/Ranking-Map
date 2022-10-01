@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/api/useAuth";
 import { useMap } from "../../hooks/api/useMap";
 import { useSearchCriteria } from "../../hooks/api/useSearchCriteria";
+import { AuthContext } from "../../providers/AuthProvider";
 import { SearchCriteriaContext } from "../../providers/SearchCriteriaProvider";
 import { AlertMessage } from "../atoms/AlertMessage";
 import { PrimaryButton } from "../atoms/PrimaryButton";
@@ -58,12 +59,12 @@ export const RadiusValues = [
 ]
 
 
-const Search:FC  =  memo(() => {
+const Search:FC  = () => {
 
     const navigate = useNavigate();
     const { indexSearchCriteria } = useSearchCriteria();
-    const { confirmIsLogin } = useAuth();
-    const isLogin = confirmIsLogin();
+    const { userInfo } = useContext(AuthContext);
+
 
     const {
             location,
@@ -137,7 +138,7 @@ const Search:FC  =  memo(() => {
     },[location,keyword,radiusCriteria,rateCriteria,ratingsTotalCriteria,distanceCriteria])
     
     useEffect(() => {
-        if(isLogin) {
+        if(userInfo.isLogin) {
             indexSearchCriteria().then(res => {
                 if(res.status === 200){
                     setLocation(res.location);
@@ -147,9 +148,8 @@ const Search:FC  =  memo(() => {
                     setRatingsTotalCriteria(res.ratingsTotalCriteria);
                     setDistanceCriteria(res.distanceCriteria);
                     setExtractOnlyIsOpen(Boolean(res.onlyIsOpen));
-                    console.log('status:200');
-                    console.log(res);
                 } else {
+                    console.log('true but else')
                     setResults([]);
                     setLocation('現在地');
                     setKeyword('');
@@ -158,11 +158,9 @@ const Search:FC  =  memo(() => {
                     setRatingsTotalCriteria('unspecified');
                     setDistanceCriteria('unspecified');
                     setExtractOnlyIsOpen(false);
-                    console.log('status:201');
                 }
             });
         } else {
-            console.log('isNotLogin');
             setResults([]);
             setLocation('現在地');
             setKeyword('');
@@ -172,7 +170,7 @@ const Search:FC  =  memo(() => {
             setDistanceCriteria('unspecified');
             setExtractOnlyIsOpen(false);
         }
-    },[]);
+    },[userInfo]);
     
     return(
         <HeaderAndFooterLayout>
@@ -259,6 +257,6 @@ const Search:FC  =  memo(() => {
         <AlertMessage/>
         </HeaderAndFooterLayout>
     )
-})
+}
 
 export default Search;

@@ -33,7 +33,7 @@ export const OnlyHeaderLayout:FC<Props> = memo( (props) => {
     
     return(
         <>
-        <Header pages={pages} />
+        <Header />
         {children}
         </>
     )

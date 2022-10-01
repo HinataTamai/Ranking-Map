@@ -26,6 +26,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //新規登録、ログイン時のルーティング
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
+Route::get('confirm', [AuthController::class, 'confirm']);
 
 //Laravel側でアクセス制限を行いたいルーティングにミドルウェアのauth:sanctumを設定する。
 Route::middleware('auth:sanctum')->group(function() {

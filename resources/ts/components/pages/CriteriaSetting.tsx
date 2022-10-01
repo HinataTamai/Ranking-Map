@@ -77,7 +77,6 @@ const CriteriaSetting:FC  =  memo(() => {
     },[location, keyword]);
 
     useEffect(() => {
-        console.log('isLogin');
         indexSearchCriteria().then(res => {
             if(res.status === 200){
                 setHasCriteria(true);
@@ -88,8 +87,6 @@ const CriteriaSetting:FC  =  memo(() => {
                 setRatingsTotal(res.ratingsTotalCriteria);
                 setDistance(res.distanceCriteria);
                 setOnlyIsOpen(Boolean(res.onlyIsOpen));
-                console.log('status:200');
-                console.log(res);
             } else {
                 setLocation('現在地');
                 setKeyword('');
@@ -98,7 +95,6 @@ const CriteriaSetting:FC  =  memo(() => {
                 setRatingsTotal('unspecified');
                 setDistance('unspecified');
                 setOnlyIsOpen(false);
-                console.log('status:204');
             }
         });
     },[]);

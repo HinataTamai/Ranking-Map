@@ -2,22 +2,24 @@ import { useAlert } from "../useAlert";
 import { useNavigate } from "react-router";
 import { useAuth } from "./useAuth";
 import axios from "axios";
+import { useContext } from "react";
+import { AuthContext } from "../../providers/AuthProvider";
 
 
 export const useFavorite = () => {
 
     const { changeAlertStatus } = useAlert();
     const navigate = useNavigate();
-    const { confirmIsLogin } = useAuth();
+    const { userInfo } = useContext(AuthContext);
+
 
     const storeFavorite = (name:string, placeId:string, rate:string, userRatingsTotal:string, photoUrl:string, photoAttribution:string) => {
-        const isLogin = confirmIsLogin();
 
-        if(!isLogin) {
+        if(!userInfo.isLogin) {
             return;
         }
 
-        const userId = localStorage.getItem('user_id');
+        const userId = userInfo.id;
 
         const data = {
             userId,
@@ -47,7 +49,7 @@ export const useFavorite = () => {
 
     const deleteFavorite = (placeId:string) =>{
 
-        const userId = localStorage.getItem('user_id');
+        const userId = userInfo.id;
 
         const data = {
             userId,
@@ -70,7 +72,8 @@ export const useFavorite = () => {
 
     const indexFavorite = async () =>{
 
-        const userId = localStorage.getItem('user_id');
+        const userId = userInfo.id;
+        console.log(userId)
 
         const data = {
             userId: userId

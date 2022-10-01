@@ -16,6 +16,7 @@ import { useAuth } from '../../hooks/api/useAuth';
 import { useFavorite } from '../../hooks/api/useFavorite';
 import { displayItem } from './ResultsTable';
 import { favoritesType } from '../pages/Favorite';
+import { AuthContext } from '../../providers/AuthProvider';
 
 
 
@@ -58,8 +59,9 @@ export const ResultsTableRow:FC<Props> = memo( ( props ) => {
     const { displayItems } = useContext(DataTableContext);
 
     const { storeFavorite, deleteFavorite } = useFavorite();
-    const { confirmIsLogin } = useAuth();
-    const isLogin = confirmIsLogin();
+    const { userInfo } = useContext(AuthContext);
+    const isLogin = userInfo.isLogin;
+
 
     const handleClickOpen = () => {
         setOpen( prev => !prev);
@@ -86,8 +88,6 @@ export const ResultsTableRow:FC<Props> = memo( ( props ) => {
 
     useEffect(() => {
         favorites?.forEach(favorite => {
-            console.log( 'favorite:' + favorite.placeId);
-            console.log( 'results' + result.destinationPlaceId);
             if(favorite.placeId === result.destinationPlaceId) {
                 setIsFavorite(true);
             }

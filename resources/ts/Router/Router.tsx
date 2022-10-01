@@ -1,4 +1,4 @@
-import { FC, memo } from "react";
+import { FC, memo, useContext } from "react";
 import { Route, Routes } from "react-router-dom";
 import Page404 from "../components/pages/Page404";
 import Search from "../components/pages/Search";
@@ -9,14 +9,15 @@ import SearchResults from "../components/pages/SearchResults";
 import Favorite from "../components/pages/Favorite";
 import CriteriaSetting from "../components/pages/CriteriaSetting";
 import { useAuth } from "../hooks/api/useAuth";
+import { AuthContext } from "../providers/AuthProvider";
 
 const Router:FC = memo(() => {
 
-    const { confirmIsLogin } = useAuth();
-    const isLogin = confirmIsLogin();
+    const { userInfo } = useContext(AuthContext);
+
 
     //トークンの有無でルーティングを変更
-    if( !isLogin ) { //未ログイン時
+    if( !userInfo.isLogin ) { //未ログイン時
         return(
             <Routes>
                 <Route  path='/' element={ <Search /> } />

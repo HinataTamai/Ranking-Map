@@ -81,4 +81,20 @@ class AuthController extends Controller
             'message'=>'ログアウトしました。',
         ]);
     }
+
+    public function confirm(){
+
+        if (Auth::check()) {    // ユーザーはログイン済み
+            // 現在認証しているユーザーのIDを取得
+            $id = Auth::id();
+            return response()->json([
+                'status' => 200,
+                'user_id' => $id
+            ]);
+        } else {
+            return response()->json([
+                'status' => 401,
+            ]);
+        }
+    }
 }

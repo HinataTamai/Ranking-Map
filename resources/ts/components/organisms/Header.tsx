@@ -1,4 +1,4 @@
-import { FC, memo, useEffect, useState } from "react";
+import { FC, memo, useContext, useEffect, useState } from "react";
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -8,13 +8,14 @@ import Logo from './../../../images/logo.png';
 import { HamburgerDrawer } from "./HamburgerDrawer";
 import { useAuth } from "../../hooks/api/useAuth";
 import { useNavigate } from "react-router";
+import { AuthContext } from "../../providers/AuthProvider";
 
 
 
 export const Header:FC = memo( () => {
 
-    const { confirmIsLogin, logoutSubmit } = useAuth();
-    const isLogin = confirmIsLogin();
+    const { userInfo } = useContext(AuthContext);
+    const { logoutSubmit } = useAuth();
     const navigate = useNavigate();
 
 
@@ -26,7 +27,8 @@ export const Header:FC = memo( () => {
     const handleClickSearch = () => navigate('/');
 
 
-    const pages = isLogin ?
+
+    const pages = userInfo.isLogin ?
         [
             {
                 text: '検索ページ',
@@ -61,6 +63,7 @@ export const Header:FC = memo( () => {
             },
         ]
     ;
+
 
     return(
         <AppBar position="sticky">

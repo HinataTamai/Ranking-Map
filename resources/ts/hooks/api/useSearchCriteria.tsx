@@ -4,19 +4,22 @@ import { useAuth } from "./useAuth";
 import axios from "axios";
 import { string } from "prop-types";
 import { Criteria } from "../../components/pages/Search";
+import { useContext } from "react";
+import { AuthContext } from "../../providers/AuthProvider";
 
 
 export const useSearchCriteria = () => {
 
     const { changeAlertStatus } = useAlert();
     const navigate = useNavigate();
-    const { confirmIsLogin } = useAuth();
+    const { userInfo } = useContext(AuthContext);
 
     const indexSearchCriteria = async () => {
-        const userId = localStorage.getItem('user_id');
+        const userId = userInfo.id;
         const data = {
             userId
         }
+
         let criteria:Criteria = {
             status: 400,
             location : '',
@@ -27,6 +30,7 @@ export const useSearchCriteria = () => {
             distanceCriteria : '',
             onlyIsOpen : '0',
         }
+        
         await axios.post('/api/criteria/index', data).then(res => {
             const data = res.data;
             if(data.status == 200) {
@@ -47,8 +51,8 @@ export const useSearchCriteria = () => {
             console.log(e);
             changeAlertStatus(
                 true,
-                '検索条件情報の取得に失敗しました。',
-                'success',
+                '検索条件の取得に失敗しました。',
+                'error',
                 'bottom',
                 'center'
             );
@@ -67,7 +71,7 @@ export const useSearchCriteria = () => {
         distanceCriteria: string,
         onlyIsOpen: boolean
     ) => {
-        const userId = localStorage.getItem('user_id');
+        const userId = userInfo.id;
         
         const data = {
             userId,
@@ -113,7 +117,7 @@ export const useSearchCriteria = () => {
 
 
     const deleteSearchCriteria = async () => {
-        const userId = localStorage.getItem('user_id');
+        const userId = userInfo.id;
         const data = { userId }
         await axios.post('api/criteria/delete', data).then(res => {
             if( res.data.status == 200) {
