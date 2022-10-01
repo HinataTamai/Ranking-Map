@@ -9,10 +9,13 @@ type Props = {
     children:React.ReactNode;
 };
 
+//100vh指定ではsafariで表示がずれる
+const heigh = window.innerHeight;
+
 const StyledFooter = styled('footer')(({ theme }) => ({
     display: 'block',
     position: 'sticky',
-    top:'100vh',
+    top: heigh,
     padding:10,
     textAlign:'center',
     backgroundColor:theme.palette.primary.main
