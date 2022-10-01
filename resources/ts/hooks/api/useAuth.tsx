@@ -160,7 +160,7 @@ export const useAuth = () => {
         
         isLogin = localStorage.getItem('user_id') ? true : false;
         
-        return false;
+        return isLogin;
     }
 
     return { registerSubmit, loginSubmit, logoutSubmit, socialLogin, confirmIsLogin }
