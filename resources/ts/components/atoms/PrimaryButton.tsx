@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import { FC, memo } from "react";
 
 type Props = {
@@ -21,9 +21,10 @@ export const PrimaryButton:FC<Props> = memo( (props) => {
             onClick={onClick}
             fullWidth={fullWidth}
             color={color}
-            sx={{maxWidth: 600, my: 'auto', }}
+            size='large'
+            sx={{maxWidth: 600, my: 'auto'}}
         >
-            {children}
+            <Typography variant='body1'>{children}</Typography>
         </Button>
     )
 })

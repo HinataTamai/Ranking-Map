@@ -177,7 +177,7 @@ const Search:FC  =  memo(() => {
     return(
         <HeaderAndFooterLayout>
         <Stack 
-            spacing={4} 
+            spacing={5} 
             sx={{
                 my: '10vw',
                 mx: 'auto',
@@ -186,7 +186,8 @@ const Search:FC  =  memo(() => {
                     sm:'78%',
                     md:'70%',
                     lg:'63%'
-                }
+                },
+                maxWidth: 700
             }}
         >
             <TextInput
@@ -226,11 +227,13 @@ const Search:FC  =  memo(() => {
                 handleDistance={handleChangeDistance}
                 distanceValue={distanceCriteria}
             />
-            <SwitchWithLabel
-            label='営業時間中の施設のみ表示'
-            checked={extractOnlyIsOpen}
-            handleChange={handleChangeIsOpen}
-            ></SwitchWithLabel>
+            <Stack direction='row' justifyContent='flex-end'>
+                <SwitchWithLabel
+                label='営業時間中の施設のみ表示'
+                checked={extractOnlyIsOpen}
+                handleChange={handleChangeIsOpen}
+                ></SwitchWithLabel>
+            </Stack>
             <Stack alignItems='center'>
             <PrimaryButton
                 onClick={onClickSearch} 

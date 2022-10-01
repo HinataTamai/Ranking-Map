@@ -119,6 +119,7 @@ const CriteriaSetting:FC  =  memo(() => {
                     md:'70%',
                     lg:'63%'
                 },
+                maxWidth: 700
             }}
             >
                 <Typography align="center" variant="h5" fontWeight='bold'>検索条件設定</Typography>
