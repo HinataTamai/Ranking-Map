@@ -82,7 +82,7 @@ const Register:FC  =  memo(() => {
                     maxWidth: 600,
                     height:'70%', 
                     mx: 'auto', 
-                    mt: '5vh'
+                    mt: '10vh'
                 }}
             >
             <form onSubmit={onSubmit}>

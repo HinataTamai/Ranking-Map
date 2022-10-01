@@ -35,7 +35,7 @@ export const PriorityRadio:FC<Props> = memo( (props) => {
                 <Stack 
                     flexWrap={'wrap'} 
                     direction={{sm: 'row'}}
-                    justifyContent={{sm: 'center'}}
+                    justifyContent={{sm: 'space-around'}}
                     spacing={{
                         sm:2,
                         md:3
