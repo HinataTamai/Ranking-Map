@@ -66,7 +66,7 @@ export const Header:FC = memo( () => {
 
 
     return(
-        <AppBar position="sticky">
+        <AppBar position="sticky" sx={{display: 'block'}}>
         <Container maxWidth="xl">
             <Toolbar disableGutters sx={{display: 'flex',justifyContent: 'space-between'}}>
             <Box component='img' src={Logo} sx={{ display: {xs: 'none',md:'block' }, mr: 1 , height:'70px'}} />

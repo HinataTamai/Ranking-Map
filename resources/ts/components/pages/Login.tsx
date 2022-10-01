@@ -79,7 +79,7 @@ const Login:FC  =  memo(() => {
                     maxWidth: 600,
                     height:'70%', 
                     mx: 'auto', 
-                    mt: '5vh'
+                    my: '5vh'
                 }}
             >
                 <form onSubmit={onSubmit}>
