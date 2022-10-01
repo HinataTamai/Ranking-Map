@@ -1,4 +1,4 @@
-import React, { createContext, FC, memo, useState } from "react";
+import React, { createContext, FC, memo, useContext, useState } from "react";
 import { useNavigate } from "react-router";
 import { useAuth } from '../hooks/api/useAuth';
 import LoginIcon from '@mui/icons-material/Login';
@@ -7,6 +7,7 @@ import HowToRegIcon from '@mui/icons-material/HowToReg';
 import StarIcon from '@mui/icons-material/Star';
 import SettingsIcon from '@mui/icons-material/Settings';
 import SearchIcon from '@mui/icons-material/Search';
+import { AuthContext } from "./AuthProvider";
 
 type Props = {
     children: React.ReactNode;
@@ -28,7 +29,7 @@ export const HamburgerDrawerProvider:FC<Props> = memo( (props) => {
 
     const  navigate  = useNavigate();
     const { logoutSubmit, confirmIsLogin } = useAuth(); 
-    const isLogin = confirmIsLogin();
+    const { userInfo } = useContext(AuthContext);
     const handleClickRegister = () => navigate('/register');
     const handleClickLogin = () => navigate('/login');
     const handleClickLogout = () => logoutSubmit();
@@ -39,7 +40,7 @@ export const HamburgerDrawerProvider:FC<Props> = memo( (props) => {
     const { children } = props;
     
     const [drawerItems, setDrawerItems] = useState<DrawerItems>(
-        isLogin ?
+        userInfo.isLogin ?
         [
             {
             text: '検索ページ',
