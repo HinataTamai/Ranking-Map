@@ -31,7 +31,7 @@ class IdentityProviderController extends Controller
             //登録済ユーザの場合はログイン処理
             $user = User::where('id', $identity_provider->user_id)->first();
 
-            if (Auth::loginUsingId($user->id)){
+            if (Auth::loginUsingId($user->id, true)){
                 $request->session()->regenerate();
     
                 return response()->json([
@@ -67,7 +67,7 @@ class IdentityProviderController extends Controller
             ]);
 
             //ログイン処理
-            if (Auth::loginUsingId($user->id)){
+            if (Auth::loginUsingId($user->id, true)){
                 $request->session()->regenerate();
                 return response()->json([
                     'id' => $user->id,
