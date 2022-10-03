@@ -135,6 +135,10 @@ const Login:FC  =  memo(() => {
                             }}
                         />
                     </Box>
+                    <Box onClick={onClickButton} id='line'>
+                        
+                    </Box>
+                    <Button onClick={onClickButton} id='line'>login with line</Button>
                 </Stack>
             </Stack>
             <AlertMessage/>
