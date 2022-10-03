@@ -7,6 +7,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import GoogleIcon from './../../../images/btn_google_signin_dark_normal_web@2x.png';
 import { AlertMessage } from "../atoms/AlertMessage";
+import LineIcon from './../../../images/btn_login_base.png';
 import axios from "axios";
 
 
@@ -82,7 +83,7 @@ const Register:FC  =  memo(() => {
                     maxWidth: 600,
                     height:'70%', 
                     mx: 'auto', 
-                    mt: '10vh'
+                    my: '10vh'
                 }}
             >
             <form onSubmit={onSubmit}>
@@ -132,20 +133,39 @@ const Register:FC  =  memo(() => {
                 <Button variant="contained" type="submit">登録</Button>
                 </Stack>
             </form>
-            <Stack spacing={2} sx={{mt:3}}>
-                <Box><Divider><Chip label='or'/></Divider></Box>
-                <Box onClick={onClickButton} id='google'>
-                    <Box 
-                        component='img' 
-                        src={ GoogleIcon }  
-                        sx={{
-                            height: {xs: '60%', sm: '70%'}, 
-                            mx: 'auto', 
-                            display: 'block'
-                        }}
-                    />
+            <Box sx={{mt:3}}>
+                    <Box><Divider><Chip label='or'/></Divider></Box>
+                    <Box sx={{height: 'fit-content'}}>
+                        <Box 
+                            id='google'
+                            onClick={onClickButton}
+                            component='img' 
+                            src={ GoogleIcon }  
+                            sx={{
+                                display: 'block',
+                                width: {xs: '65%', sm: '50%', md: '45%'},
+                                mt: '2vh',
+                                mb: '1.5vh',
+                                mx: 'auto', 
+                                cursor: 'pointer',
+                            }}
+                        />
+                    </Box>
+                    <Box>
+                        <Box 
+                            onClick={onClickButton}
+                            id='line'
+                            component='img' 
+                            src={ LineIcon }  
+                            sx={{
+                                display: 'block',
+                                width: {xs: '60%', sm: '45%', md: '40%'}, 
+                                mx: 'auto', 
+                                cursor: 'pointer',
+                            }}
+                        />
+                    </Box>
                 </Box>
-            </Stack>
             </Stack>
             <AlertMessage/>
         </HeaderAndFooterLayout>

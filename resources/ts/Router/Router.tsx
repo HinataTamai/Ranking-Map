@@ -8,6 +8,7 @@ import LoginCallback from "../components/pages/LoginCallback";
 import SearchResults from "../components/pages/SearchResults";
 import Favorite from "../components/pages/Favorite";
 import CriteriaSetting from "../components/pages/CriteriaSetting";
+import SnsExplain from "../components/pages/SnsExplain";
 import { useAuth } from "../hooks/api/useAuth";
 import { AuthContext } from "../providers/AuthProvider";
 
@@ -24,6 +25,7 @@ const Router:FC = memo(() => {
                 <Route  path='/results' element={<SearchResults />} />
                 <Route  path='/register' element={<Register />} />
                 <Route  path='/login' element={<Login />} />
+                <Route  path='/login/explain' element={<SnsExplain />} />
                 <Route  path='/login/:provider/callback' element={<LoginCallback />} />
                 <Route  path='*' element={<Page404 />} />
             </Routes>

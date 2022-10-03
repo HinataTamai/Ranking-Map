@@ -4,6 +4,7 @@ import { useAuth } from "../../hooks/api/useAuth";
 import { Button, Checkbox, Chip, Divider, FormControl, FormControlLabel, FormHelperText, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField } from "@mui/material";
 import { Box, Stack } from "@mui/system";
 import GoogleIcon from './../../../images/btn_google_signin_dark_normal_web@2x.png';
+import LineIcon from './../../../images/btn_login_base.png';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { AlertMessage } from "../atoms/AlertMessage";
@@ -122,24 +123,39 @@ const Login:FC  =  memo(() => {
                         <Button variant="contained" type="submit">login</Button>
                     </Stack>
                 </form>
-                <Stack spacing={2} sx={{mt:3}}>
+                <Box sx={{mt:3}}>
                     <Box><Divider><Chip label='or'/></Divider></Box>
-                    <Box onClick={onClickButton} id='google'>
+                    <Box sx={{height: 'fit-content'}}>
                         <Box 
+                            id='google'
+                            onClick={onClickButton}
                             component='img' 
                             src={ GoogleIcon }  
                             sx={{
-                                height: {xs: '60%', sm: '70%'}, 
+                                display: 'block',
+                                width: {xs: '65%', sm: '50%', md: '45%'},
+                                mt: '2vh',
+                                mb: '1.5vh',
                                 mx: 'auto', 
-                                display: 'block'
+                                cursor: 'pointer',
                             }}
                         />
                     </Box>
-                    <Box onClick={onClickButton} id='line'>
-                        
+                    <Box>
+                        <Box 
+                            onClick={onClickButton}
+                            id='line'
+                            component='img' 
+                            src={ LineIcon }  
+                            sx={{
+                                display: 'block',
+                                width: {xs: '60%', sm: '45%', md: '40%'}, 
+                                mx: 'auto', 
+                                cursor: 'pointer',
+                            }}
+                        />
                     </Box>
-                    <Button onClick={onClickButton} id='line'>login with line</Button>
-                </Stack>
+                </Box>
             </Stack>
             <AlertMessage/>
         </HeaderAndFooterLayout>
