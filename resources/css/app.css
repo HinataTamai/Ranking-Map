@@ -13,6 +13,9 @@ body {
 #root {
     height: 100%;
 }
+#footer {
+    top: 100lvh;
+}
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

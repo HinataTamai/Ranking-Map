@@ -9,13 +9,11 @@ type Props = {
     children:React.ReactNode;
 };
 
-//100vh指定ではsafariで表示がずれる
-const heigh = window.innerHeight;
 
 const StyledFooter = styled('footer')(({ theme }) => ({
     display: 'block',
     position: 'sticky',
-    top: heigh,
+    top:'100vh',
     padding:10,
     textAlign:'center',
     backgroundColor:theme.palette.primary.main
@@ -48,7 +46,7 @@ export const HeaderAndFooterLayout:FC<Props> = memo( (props) => {
         <>
         <Header/>
         {children}
-        <StyledFooter>
+        <StyledFooter id='footer'>
         <small>© hinatatamai 2022</small>
         </StyledFooter>
         </>
