@@ -13,7 +13,6 @@ type Props = {
 const StyledFooter = styled('footer')(({ theme }) => ({
     display: 'block',
     position: 'sticky',
-    top:'100vh',
     padding:10,
     textAlign:'center',
     backgroundColor:theme.palette.primary.main
