@@ -1,6 +1,6 @@
 html {
-    height: 100vh;
-    height: 100lvh;
+    min-height: 100vh;
+    min-height: 100lvh;
 }
 body {
     height: 100%;
