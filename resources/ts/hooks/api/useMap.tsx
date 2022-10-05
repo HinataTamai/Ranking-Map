@@ -125,6 +125,7 @@ export const useMap = () => {
                 results: google.maps.places.PlaceResult[] | null,
                 status: google.maps.places.PlacesServiceStatus,
             ) => {
+                console.log('findPlaceApi');
                 if (status === google.maps.places.PlacesServiceStatus.OK){
 
                     if(results != null) {
@@ -205,7 +206,7 @@ export const useMap = () => {
 
         //出発地点の値にしたがって位置情報を取得
         if(location == '現在地'){
-
+            
             //現在地の位置情報を取得
             await getPosition().then((value) => {
                 originLocation.lat = value.lat;
@@ -373,28 +374,37 @@ export const useMap = () => {
                 status: google.maps.places.PlacesServiceStatus,
                 pagination: google.maps.places.PlaceSearchPagination | null,
             ) => {
+                console.log('nearbySearchApi');
                 switch(status) {
                     case 'OK':
-                        if (results != null) {
-                            data = data.concat(results);
-                        };
-                        
+                        {/*ー－－－－－－↓20件以上取得したい場合に必要な処理↓ー－－－－－ */}
+                        // if (results != null) {
+                        //     data = data.concat(results);
+                        // };
                         //pagination.hasNextPage == true の場合は続きの情報アリ
                         //pagination.nextPageで続き情報取得
-                        if(pagination && pagination.hasNextPage) {
-                            pagination.nextPage();
-                        } else {
-                            //createDataは取得したデータをソートしやすい形に変換する関数
-                            //プロミスオブジェクトを返す非同期関数
-                            const createdData =  createData(data);
-                            createdData.then((results:resultsType) => {
-                                sort(results, rateCriteria, ratingsTotalCriteria, distanceCriteria);
-                                setResults(results);
-                                setIsLoading(false);
-                            }).catch((e:any) => {
-                                alert(e);
-                            })
-                        }
+                        // if(pagination && pagination.hasNextPage) {
+                        //     pagination.nextPage();
+                        // } else {
+                        // }
+                        {/*ー－－－－－－－－－ー－－ここまでー－－－－－－－－－－－－ */}
+
+                        //createDataは取得したデータをソートしやすい形に変換する関数
+                        //プロミスオブジェクトを返す非同期関数
+                        const createdData =  createData(results!);
+                        createdData.then((results:resultsType) => {
+                            sort(results, rateCriteria, ratingsTotalCriteria, distanceCriteria);
+                            setResults(results);
+                            setIsLoading(false);
+                        }).catch((e:any) => {
+                            changeAlertStatus(
+                                true,
+                                '施設情報の取得に失敗しました。',
+                                'error',
+                                'bottom',
+                                'center'
+                            )
+                        })
                         break;
                     case 'INVALID_REQUEST':
                         changeAlertStatus(

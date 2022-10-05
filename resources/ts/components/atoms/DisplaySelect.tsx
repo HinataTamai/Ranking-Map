@@ -27,26 +27,16 @@ const items = [
     '距離',
 ];
 
-function getStyles(item: string, itemName: readonly string[], theme: Theme) {
-    return {
-        fontWeight:
-        itemName.indexOf(item) === -1
-            ? theme.typography.fontWeightRegular
-            : theme.typography.fontWeightMedium,
-    };
-}
 
-export const SelectBox = React.memo(() => {
+export const DisplaySelect = React.memo(() => {
     const theme = useTheme();
     const [error, setError ] = React.useState<boolean>(false);
     const [errorMessage, setErrorMessage] = React.useState<string>('');
 
-    const { displayItems,setDisplayItems } = React.useContext(DataTableContext);
+    const { display,setDisplay } = React.useContext(DataTableContext);
 
-    const handleChange = (event: SelectChangeEvent<typeof displayItems>) => {
-        const {
-        target: { value },
-        } = event;
+    const handleChange = (event: SelectChangeEvent<typeof display>) => {
+        const { target: { value } } = event;
         const valueLength = value.length;
         switch (valueLength) {
             case 0:
@@ -66,9 +56,8 @@ export const SelectBox = React.memo(() => {
                 setError(true);
                 break;
         }
-        setDisplayItems(
-        // On autofill we get a stringified value.
-        typeof value === 'string' ? value.split(',') : value,
+        setDisplay(
+            typeof value === 'string' ? value.split(',') : value,
         );
     };
 
@@ -76,27 +65,25 @@ export const SelectBox = React.memo(() => {
         <div>
         <FormControl sx={{ m: 1, width: 300 }} error={error}>
             <InputLabel id="multiple-chip-label">表示項目（1つ以上3つ未満）</InputLabel>
-            {error && <FormHelperText>{errorMessage
-            }</FormHelperText>}
+            {error && <FormHelperText>{ errorMessage }</FormHelperText>}
             <Select
-            labelId="multiple-chip-label"
-            id="multiple-chip"
-            multiple
-            value={displayItems}
-            onChange={handleChange}
-            input={<OutlinedInput id="select-multiple-chip" label="表示項目（1つ以上3つ未満）" />}
-            renderValue={(selected) => (
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                {selected.map((value) => (
-                    <Chip key={value} label={value} />
-                ))}
-                </Box>
-            )}
-            MenuProps={MenuProps}
+                labelId="multiple-chip-label"
+                multiple
+                value={display}
+                onChange={handleChange}
+                input={<OutlinedInput label="表示項目（1つ以上3つ未満）" />}
+                renderValue={(selected) => (
+                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                    {selected.map((value) => (
+                        <Chip key={value} label={value} />
+                    ))}
+                    </Box>
+                )}
+                MenuProps={MenuProps}
             >
             {items.map((item) => (
                 <MenuItem key={item} value={item}>
-                    <Checkbox checked={displayItems.indexOf(item) > -1} />
+                    <Checkbox checked={display.indexOf(item) > -1} />
                     <ListItemText primary={item} />
                 </MenuItem>
             ))}

@@ -8,15 +8,15 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import { HamburgerDrawerContext } from '../../providers/HamburgerDrawerProvider';
-import { AuthContext } from '../../providers/AuthProvider';
-import { useNavigate } from 'react-router';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import StarIcon from '@mui/icons-material/Star';
 import SettingsIcon from '@mui/icons-material/Settings';
 import SearchIcon from '@mui/icons-material/Search';
+
+import { AuthContext } from '../../providers/AuthProvider';
+import { useNavigate } from 'react-router';
 import { useAuth } from '../../hooks/api/useAuth';
 
 

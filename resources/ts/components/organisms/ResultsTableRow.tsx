@@ -1,22 +1,21 @@
+import { FC, memo, useContext, useEffect, useState } from "react";
+import { Box, Collapse, Divider, IconButton, Stack} from '@mui/material';
 import { styled } from '@mui/material/styles';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
-import { FC, memo, useContext, useEffect, useState } from "react";
-import { Box, Collapse, Divider, IconButton, List, ListItem, Stack, Typography} from '@mui/material';
-import  resultType  from '../../types/resultType';
-import { DataTableContext } from '../../providers/DataTableProvider';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { useDataTable } from '../../hooks/useDataTable';
-import { RouteButton } from '../atoms/RouteButton';
-import { ResultsTableRowList } from './ResultsTableRowList';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarIcon from '@mui/icons-material/Star';
-import { useAuth } from '../../hooks/api/useAuth';
+
+import  resultType  from '../../types/resultType';
+import { ResultsTableRowList } from './ResultsTableRowList';
+import { RouteButton } from '../atoms/RouteButton';
 import { useFavorite } from '../../hooks/api/useFavorite';
-import { displayItem } from './ResultsTable';
+import { displayItems } from './ResultsTable';
 import { favoritesType } from '../pages/Favorite';
 import { AuthContext } from '../../providers/AuthProvider';
+
 
 
 
@@ -46,26 +45,26 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 type Props = {
     result:resultType;
     favorites:favoritesType | undefined;
-    firstDisplayItem:displayItem;
-    secondDisplayItem:displayItem;
+    displayItems: displayItems;
 };
 
 export const ResultsTableRow:FC<Props> = memo( ( props ) => {
 
-    const { result, firstDisplayItem, secondDisplayItem, favorites } = props;
+    const { result, displayItems, favorites } = props;
 
-    const [open, setOpen] = useState(false);
-    const [isFavorite, setIsFavorite] = useState(false);
-    const { displayItems } = useContext(DataTableContext);
-
+    // const { displayItems } = useContext(DataTableContext);
     const { storeFavorite, deleteFavorite } = useFavorite();
     const { userInfo } = useContext(AuthContext);
     const isLogin = userInfo.isLogin;
+    
+    const [isFavorite, setIsFavorite] = useState(false);
+    const [open, setOpen] = useState(false);
 
 
     const handleClickOpen = () => {
         setOpen( prev => !prev);
     }
+
     const handleClickFavorite = () => {
         if(!isFavorite){
             const rate = String(result.rating);
@@ -86,6 +85,7 @@ export const ResultsTableRow:FC<Props> = memo( ( props ) => {
 
 
 
+    //既にお気に入りに登録済の施設が検索結果に含まれる場合、isFavoriteをtrueにする
     useEffect(() => {
         favorites?.forEach(favorite => {
             if(favorite.placeId === result.destinationPlaceId) {
@@ -108,24 +108,15 @@ export const ResultsTableRow:FC<Props> = memo( ( props ) => {
                 {result.rank}
             </StyledTableCell>
             
-            {<StyledTableCell align='left' sx={{wordBreak:'break-all', fontWeight:'bold'}}>
+            <StyledTableCell align='left' sx={{wordBreak:'break-all', fontWeight:'bold'}}>
                 {result.name}
-            </StyledTableCell>}
-            {(displayItems.length > 1
-            ?
-            <>
-            <StyledTableCell align="center" sx={{display: {md: 'none'}}}>
-                {result[firstDisplayItem.value]}
             </StyledTableCell>
-            <StyledTableCell  align="center" sx={{display: {md: 'none'}}}>
-                {result[secondDisplayItem.value]}
-            </StyledTableCell>
-            </>
-            :
-                <StyledTableCell sx={{display: {md: 'none'}}} align="center">
-                    {result[firstDisplayItem.value]}
+            {displayItems.map(item => (
+                <StyledTableCell sx={{display: {md: 'none'}}} align="center" key={item.label}>
+                    {result[item.value]}
                 </StyledTableCell>
-            )}
+            ))}
+            {/* ー－－－－－－－－－－－－↓PC用レイアウト↓ー－－－－－－－－ */}
             <StyledTableCell align="center" sx={{display: {xs: 'none', md: 'table-cell'}}} >
                 {result.rating}
             </StyledTableCell>
@@ -135,6 +126,7 @@ export const ResultsTableRow:FC<Props> = memo( ( props ) => {
             <StyledTableCell align="center" sx={{display: {xs: 'none', md: 'table-cell'}}} >
                 {result.distance}
             </StyledTableCell>
+            {/* ー－－－－－－－－－－－－↑PC用レイアウト↑ー－－－－－－－－ */}
         </StyledTableRow>
         <TableRow>
             <TableCell colSpan={5} sx={{p:0}}>
@@ -165,46 +157,35 @@ export const ResultsTableRow:FC<Props> = memo( ( props ) => {
                                 width: {xs:'50%', sm:'40%', md:'32%', lg:'30%'},
                                 alignSelf: 'stretch'
                             }}
-                            >
-                        <Box
-                            component='img' 
-                            src={result.photoUrl} 
-                            sx={{
-                                width: '100%',
-                                height: '100%',
-                                objectFit:'cover',
-                            }}
-                        />
-                        </Box>
-                        <Stack
-                            spacing={2} 
-                            sx={{
-                                width: '35%',
-                                height: '100%',
-                            }}
                         >
+                            <Box
+                                component='img' 
+                                src={result.photoUrl} 
+                                sx={{ width: '100%', height: '100%', objectFit: 'cover'}}
+                            />
+                        </Box>
+                        <Stack spacing={2}  sx={{ width: '35%', height: '100%',}} >
                             <ResultsTableRowList result={result}/>
                             <Divider sx={{display:{md:'none'}}} />
-                            {
-                            document.documentElement.clientWidth < 834 
+                            { document.documentElement.clientWidth < 834 
                             ?
-                            <RouteButton 
-                                name={result.name} 
-                                placeId={result.destinationPlaceId} 
-                                originLat={result.originLocation.lat} 
-                                originLng={result.originLocation.lng} 
-                            >
-                                経路
-                            </RouteButton>
+                                <RouteButton 
+                                    name={result.name} 
+                                    placeId={result.destinationPlaceId} 
+                                    originLat={result.originLocation.lat} 
+                                    originLng={result.originLocation.lng} 
+                                >
+                                    経路
+                                </RouteButton>
                             :
-                            <RouteButton 
-                                name={result.name} 
-                                placeId={result.destinationPlaceId} 
-                                originLat={result.originLocation.lat} 
-                                originLng={result.originLocation.lng} 
-                            >
-                                経路案内を開始する
-                            </RouteButton>
+                                <RouteButton 
+                                    name={result.name} 
+                                    placeId={result.destinationPlaceId} 
+                                    originLat={result.originLocation.lat} 
+                                    originLng={result.originLocation.lng} 
+                                >
+                                    経路案内を開始する
+                                </RouteButton>
                             }
                         </Stack>
                     </Box>

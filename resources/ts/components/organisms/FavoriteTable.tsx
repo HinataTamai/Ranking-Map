@@ -1,27 +1,25 @@
-import { styled } from '@mui/material/styles';
+import React, { FC, useContext, useEffect, useState } from "react";
 import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
+import TableBody from '@mui/material/TableBody';
 import Paper from '@mui/material/Paper';
-import React, { FC, memo, useContext, useEffect, useState } from "react";
+import TableCell from '@mui/material/TableCell';
 import { Box, Pagination, TableFooter} from '@mui/material';
-import { TextSelect } from '../atoms/TextSelect';
-import  resultType  from '../../types/resultType';
+
 import LoadingCircle from '../atoms/LoadingCircle';
-import { SelectBox } from '../atoms/SelectBox';
+import { TextSelect } from '../atoms/TextSelect';
+import { AuthContext } from '../../providers/AuthProvider';
 import { DataTableContext } from '../../providers/DataTableProvider';
-import { ResultsTableRow } from './ResultsTableRow';
-import resultsType from '../../types/resultsType';
-import { ResultsTableHead } from './ResultsTableHead';
-import { SearchCriteriaContext } from '../../providers/SearchCriteriaProvider';
 import { FavoriteTableHead } from './FavoriteTableHead';
 import { FavoriteTableRow } from './FavoriteTableRow';
 import { useFavorite } from '../../hooks/api/useFavorite';
 import { favoritesType, favoriteType } from '../pages/Favorite';
 import { AlertMessage } from '../atoms/AlertMessage';
-import { AuthContext } from '../../providers/AuthProvider';
+
+
+
+
 
 export type displayItem = {
     label:string,
@@ -60,7 +58,7 @@ export const FavoriteTable:FC = () => {
     const [favorites,setFavorites] = useState<favoritesType>();
     const { indexFavorite } = useFavorite();
     const { userInfo } = useContext(AuthContext);
-    const { isLoading, displayItems } = useContext(DataTableContext);
+    const { isLoading } = useContext(DataTableContext);
     
     let emptyRows = 0;
     emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - favorites!.length) : 0;
@@ -103,12 +101,12 @@ export const FavoriteTable:FC = () => {
         return(
             <Box sx={{
                 width:{ xs:'98%', sm:'85%',md:'80%'},
-                maxWidth: 1125,
+                maxWidth: 800,
                 mx: 'auto',
-                mt:3
+                my: '8vh'
                 }}>
                 <TableContainer component={Paper} sx={{ mt:2, overflowX:'hidden'}}>
-                    <Table sx={{ width:'100%'}} aria-label="customized table">
+                    <Table sx={{ width:'100%'}} color='secondary' >
                         <FavoriteTableHead />
                         <TableBody>
                             {

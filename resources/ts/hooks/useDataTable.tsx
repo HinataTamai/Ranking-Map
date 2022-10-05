@@ -5,7 +5,7 @@ import resultType from "../types/resultType";
 export const useDataTable = () => {
 
     const {
-        displayItems
+        display
     } = useContext(DataTableContext);
 
 
@@ -31,9 +31,9 @@ export const useDataTable = () => {
         ];
 
         //表示されていない項目名が格納された配列
-        const undisplayedItems = items.filter(i => displayItems.indexOf(i) == -1);
+        const undisplayedItems = items.filter(i => display.indexOf(i) == -1);
 
-        if(displayItems.length == 2) {
+        if(display.length == 2) {
             switch(undisplayedItems[0]) {
                 case '評価平均':
                     collapseDisplayItems[0] = {
@@ -56,7 +56,7 @@ export const useDataTable = () => {
                         }
                     break;
             }
-        } else if (displayItems.length == 1) {
+        } else if (display.length == 1) {
             for(let i=0; i<2; i++) {
                 switch(undisplayedItems[i]) {
                     case '評価平均':

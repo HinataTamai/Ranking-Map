@@ -27,11 +27,6 @@ const SearchResults:FC  =  memo(() => {
         return(
             <HeaderAndFooterLayout>
             <ResultsTable/>
-            <Box sx={{width:'80%', mx:'auto', my:2}}>
-                <PrimaryButton disabled={false} onClick={onClickButton} fullWidth={true}>
-                    条件を変更して再検索
-                </PrimaryButton>
-            </Box>
             <AlertMessage/>
             </HeaderAndFooterLayout>
         )

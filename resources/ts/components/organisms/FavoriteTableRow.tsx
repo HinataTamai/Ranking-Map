@@ -1,14 +1,12 @@
+import React, { FC, useState } from "react";
 import { styled } from '@mui/material/styles';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
-import React, { FC, memo, useContext, useEffect, useState } from "react";
-import { Box, Button, Collapse, Divider, IconButton, List, ListItem, Stack, Typography} from '@mui/material';
-import { DataTableContext } from '../../providers/DataTableProvider';
+import { Box, Collapse, IconButton, Stack, Typography} from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { useDataTable } from '../../hooks/useDataTable';
+
 import { RouteButton } from '../atoms/RouteButton';
-import { useAuth } from '../../hooks/api/useAuth';
 import { favoriteType } from '../pages/Favorite';
 import { DeleteButton } from '../atoms/DeleteButton';
 import theme from '../../Theme';
@@ -39,10 +37,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     },
 }));
 
-type DisplayItem = {
-    label:string,
-    value: 'rating' | 'userRatingsTotal' | 'distance',
-};
 
 type Props = {
     favorite: favoriteType;
@@ -54,26 +48,13 @@ export const FavoriteTableRow:FC<Props> = ( props ) => {
     const { favorite, setDeleteCount } = props;
 
     const [open,setOpen] = useState(false);
-    const { displayItems } = useContext(DataTableContext);
 
     const { deleteFavorite } = useFavorite()
-    const { createCollapseDisplayItems } = useDataTable();
-    let collapseDisplayItems = createCollapseDisplayItems();
 
-
-
-
-
-    useEffect(() => {
-        collapseDisplayItems = createCollapseDisplayItems();
-    }, [displayItems]);
 
     const handleClickDelete = () => {
         deleteFavorite(favorite.placeId);
         setDeleteCount(prev => prev + 1);
-    }
-    
-    const onClick = () => {
     }
 
 
@@ -85,13 +66,17 @@ export const FavoriteTableRow:FC<Props> = ( props ) => {
                 <IconButton
                     aria-label="expand row"
                     size="small"
+                    sx={{mr: {md: 10}}}
                 >
                     {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                 </IconButton>
                 {favorite.name}
             </StyledTableCell>
-            <StyledTableCell align='center'>{ favorite.rate }</StyledTableCell>
-            <StyledTableCell align='center'>{ favorite.userRatingsTotal }</StyledTableCell>
+            <StyledTableCell align='center'>
+                <Typography variant='body1' >
+                { favorite.rate + '（' + favorite.userRatingsTotal + '）'}
+                </Typography>
+            </StyledTableCell>
         </StyledTableRow>
         <TableRow>
             <TableCell colSpan={5} sx={{p:0}}>

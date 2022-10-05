@@ -5,8 +5,8 @@ import resultsType from "../types/resultsType";
 export const DataTableContext = createContext({} as {
     isLoading: boolean;
     setIsLoading:React.Dispatch<React.SetStateAction<boolean>>;
-    displayItems: string[];
-    setDisplayItems:React.Dispatch<React.SetStateAction<Array<string>>>;
+    display: string[];
+    setDisplay:React.Dispatch<React.SetStateAction<Array<string>>>;
     alertStatus: {
         open: boolean,
         severity: 'success' | 'error' | 'warning' | 'info',
@@ -32,7 +32,7 @@ export const DataTableProvider:FC<Props> = memo( (props) => {
     const { children } = props;
     
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [displayItems, setDisplayItems] = useState<string[]>(['評価平均','評価総数']);
+    const [display, setDisplay] = useState<string[]>(['評価平均','評価総数']);
     const [alertStatus, setAlertStatus] = useState<{
         open: boolean,
         severity: 'success' | 'error' | 'warning' | 'info',
@@ -52,8 +52,8 @@ export const DataTableProvider:FC<Props> = memo( (props) => {
         <DataTableContext.Provider value={{
             isLoading,
             setIsLoading,
-            displayItems,
-            setDisplayItems,
+            display,
+            setDisplay,
             alertStatus,
             setAlertStatus
         }} >

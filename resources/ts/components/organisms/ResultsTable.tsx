@@ -1,30 +1,30 @@
-import { styled } from '@mui/material/styles';
+import React, { FC, memo, useContext, useEffect, useState } from "react";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import React, { FC, memo, useContext, useEffect, useState } from "react";
 import { Box, Pagination, TableFooter} from '@mui/material';
+
 import { TextSelect } from '../atoms/TextSelect';
 import  resultType  from '../../types/resultType';
 import LoadingCircle from '../atoms/LoadingCircle';
-import { SelectBox } from '../atoms/SelectBox';
+import { DisplaySelect } from '../atoms/DisplaySelect';
 import { DataTableContext } from '../../providers/DataTableProvider';
 import { ResultsTableRow } from './ResultsTableRow';
-import resultsType from '../../types/resultsType';
 import { ResultsTableHead } from './ResultsTableHead';
 import { SearchCriteriaContext } from '../../providers/SearchCriteriaProvider';
 import { useFavorite } from '../../hooks/api/useFavorite';
 import { favoritesType } from '../pages/Favorite';
-import { useAuth } from '../../hooks/api/useAuth';
 import { AuthContext } from '../../providers/AuthProvider';
 
-export type displayItem = {
+
+
+export type displayItems = {
     label:string,
     value: 'rating' | 'userRatingsTotal' | 'distance',
-};
+}[];
 
 
 export const ResultsTable: FC = memo( () => {
@@ -63,91 +63,60 @@ export const ResultsTable: FC = memo( () => {
 
     const { 
         isLoading,
-        displayItems,
+        display,
     } = useContext(DataTableContext);
 
 
 
-    const [firstDisplayItem,setFirstDisplayItem] = useState<displayItem>({
-        label: '評価平均',
-        value: 'rating'
-    });
+    const [displayItems, setDisplayItems] = useState<displayItems>([
+        {
+            label: '評価平均',
+            value: 'rating'
+        },
+        {
+            label: '評価総数',
+            value: 'userRatingsTotal'
+        },
+    ]);
 
-    const [secondDisplayItem,setSecondDisplayItem] = useState<displayItem>({
-        label: '評価総数',
-        value: 'userRatingsTotal',
-    });
+
 
 
 
     useEffect(() => {
-        if(displayItems.length > 1) {
-
-            switch(displayItems[0]) {
+        setDisplayItems([]);
+        display.forEach(item => {
+            switch(item) {
                 case '評価平均':
-                    setFirstDisplayItem({
-                        label: '評価平均',
-                        value: 'rating'
-                    });
+                    setDisplayItems( prev => ([
+                            ...prev,
+                            {
+                                label: '評価平均',
+                                value: 'rating'
+                            }
+                    ]));
                     break;
                 case '評価総数':
-                    setFirstDisplayItem({
-                        label: '評価総数',
-                        value: 'userRatingsTotal'
-                    });
+                    setDisplayItems( prev => ([
+                        ...prev,
+                        {
+                            label: '評価総数',
+                            value: 'userRatingsTotal'
+                        }
+                    ]));
                     break;
                 case '距離':
-                    setFirstDisplayItem({
-                        label: '距離(km)',
-                        value: 'distance'
-                    });
+                    setDisplayItems( prev => ([
+                        ...prev,
+                        {
+                            label: '距離(km)',
+                            value: 'distance'
+                        }
+                    ]));
                     break;
             }
-
-            switch(displayItems[1]) {
-                case '評価平均':
-                    setSecondDisplayItem({
-                        label: '評価平均',
-                        value: 'rating'
-                    });
-                    break;
-                case '評価総数':
-                    setSecondDisplayItem({
-                        label: '評価総数',
-                        value: 'userRatingsTotal'
-                    });
-                    break;
-                case '距離':
-                    setSecondDisplayItem({
-                        label: '距離(km)',
-                        value: 'distance'
-                    });
-                    break;
-            }
-            
-        } else if (displayItems.length == 1) {
-            switch(displayItems[0]) {
-                case '評価平均':
-                    setFirstDisplayItem({
-                        label: '評価平均',
-                        value: 'rating'
-                    });
-                    break;
-                case '評価総数':
-                    setFirstDisplayItem({
-                        label: '評価総数',
-                        value: 'userRatingsTotal'
-                    });
-                    break;
-                case '距離':
-                    setFirstDisplayItem({
-                        label: '距離(km)',
-                        value: 'distance'
-                    });
-                    break;
-            }
-        }
-    },[displayItems]);
+        });
+    },[display]);
     
     
     
@@ -179,7 +148,7 @@ export const ResultsTable: FC = memo( () => {
 
     return(
         <Box sx={{
-            width:{ xs:'98%', sm:'85%',md:'80%'},
+            width:{ xs:'98%', sm:'90%',md:'80%'},
             maxWidth: 1125,
             mx: 'auto',
             mt:3
@@ -191,14 +160,11 @@ export const ResultsTable: FC = memo( () => {
                 }, 
                 justifyContent:'flex-end'
                 }}>
-                <SelectBox />
+                <DisplaySelect />
             </Box>
             <TableContainer component={Paper} sx={{ mt:2, overflowX:'hidden'}}>
                 <Table sx={{ width:'100%'}} aria-label="customized table">
-                    <ResultsTableHead 
-                        firstDisplayItem={firstDisplayItem} 
-                        secondDisplayItem={secondDisplayItem}
-                    />
+                    <ResultsTableHead displayItems={displayItems} />
                     <TableBody>
                         {
                             isLoading 
@@ -215,8 +181,7 @@ export const ResultsTable: FC = memo( () => {
                                             key={result.id}
                                             result={result}
                                             favorites={favorites}
-                                            firstDisplayItem={firstDisplayItem}
-                                            secondDisplayItem={secondDisplayItem}
+                                            displayItems={displayItems}
                                         />
                                     ))
                         }

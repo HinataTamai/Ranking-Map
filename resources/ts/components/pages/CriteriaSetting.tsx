@@ -1,20 +1,20 @@
-import { Box, Stack } from "@mui/system";
-import React, { FC, memo, useContext, useEffect, useState } from "react"
+import React, { FC, memo, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";
-import resultsType from "../../types/resultsType";
+import { Stack } from "@mui/system";
+import { Divider, Typography } from "@mui/material";
+
 import { AlertMessage } from "../atoms/AlertMessage";
 import { PrimaryButton } from "../atoms/PrimaryButton";
-import { FavoriteTable } from "../organisms/FavoriteTable";
 import { HeaderAndFooterLayout } from "../templates/HeaderAndFooterLayout";
 import { TextInput } from '../atoms/TextInput';
 import { TextSelect } from '../atoms/TextSelect';
 import { PriorityRadios } from '../organisms/PriorityRadios';
 import { SwitchWithLabel } from '../molecules/SwitchWithLabel';
-import { Button, Divider, Typography } from "@mui/material";
 import theme from "../../Theme";
 import { useSearchCriteria } from '../../hooks/api/useSearchCriteria'
 import { useAlert } from "../../hooks/useAlert";
 import { RadiusValues } from "./Search";
+
 
 
 const CriteriaSetting:FC  =  memo(() => {

@@ -1,7 +1,7 @@
+import React, { FC, memo } from "react";
 import { Divider, FormControl } from "@mui/material";
 import { Box, Stack } from "@mui/system";
-import React, { FC, memo, useContext } from "react";
-import { SearchCriteriaContext } from "../../providers/SearchCriteriaProvider";
+
 import { PriorityRadio } from "../molecules/PriorityRadio";
 
 type Props = {

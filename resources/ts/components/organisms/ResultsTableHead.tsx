@@ -1,10 +1,10 @@
+import { FC, memo, useContext } from "react";
 import { styled } from '@mui/material/styles';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { FC, memo, useContext } from "react";
-import { DataTableContext } from '../../providers/DataTableProvider';
-import { displayItem } from './ResultsTable';
+
+import { displayItems } from './ResultsTable';
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -19,80 +19,45 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 type Props = {
-    firstDisplayItem: displayItem;
-    secondDisplayItem: displayItem;
+    displayItems: displayItems;
 }
 
 
 
-export const ResultsTableHead: FC<Props> = memo( ({ firstDisplayItem, secondDisplayItem}) => {
+export const ResultsTableHead: FC<Props> = memo( ({ displayItems}) => {
 
-
-    const { displayItems } = useContext(DataTableContext);
 
 
     return(
         <TableHead>
             <TableRow>
                 <StyledTableCell sx={{minWidth:30,pr:1}}>順位</StyledTableCell>
-                <StyledTableCell align="center" sx={{minWidth:160,px:1}}>店名</StyledTableCell>
-
-                {(displayItems.length > 1
-                ? 
-                <>
-                <StyledTableCell
-                    align="center" 
-                    sx={{
-                        display :{md: 'none'},
-                        minWidth:35,
-                        wordBreak:'break-all',
-                    }}
-                >
-                    {firstDisplayItem.label}
+                <StyledTableCell align="center" sx={{minWidth:155,px:1}}>店名</StyledTableCell>
+                { displayItems.map(item => (
+                    <StyledTableCell
+                        key={item.label}
+                        align="center" 
+                        sx={{
+                            display :{md: 'none'},
+                            minWidth:{xs: 35, sm:60},
+                            maxWidth: {xs: 35,sm:200},
+                            wordBreak:'break-all',
+                        }}
+                    >
+                        {item.label}
+                    </StyledTableCell>
+                ))}
+                {/* ー－－－－－－－－－－－－↓PC用レイアウト↓ー－－－－－－－－ */}
+                <StyledTableCell align="center" sx={{display: {xs: 'none', md:'table-cell'}}}>
+                    評価平均
                 </StyledTableCell>
-                <StyledTableCell
-                    align="center" 
-                    sx={{
-                        display :{md: 'none'},
-                        minWidth:35,
-                        wordBreak:'break-all',
-                    }}
-                >
-                    {secondDisplayItem.label}
+                <StyledTableCell align="center" sx={{display: {xs: 'none', md:'table-cell'}}}>
+                    評価総数
                 </StyledTableCell>
-                </>
-                :
-                <StyledTableCell
-                    align="center" 
-                    sx={{
-                        display: {md: 'none'},
-                        minWidth:39,
-                        pl:1,
-                        wordBreak:'break-all'
-                    }}
-                >
-                {firstDisplayItem.label}
+                <StyledTableCell align="center" sx={{display: {xs: 'none', md:'table-cell'}}}>
+                    距離（km）
                 </StyledTableCell>
-                )}
-
-                <StyledTableCell
-                    align="center"
-                    sx={{display: {xs: 'none', md:'table-cell'}}}
-                >
-                評価平均
-                </StyledTableCell>
-                <StyledTableCell
-                    align="center"
-                    sx={{display: {xs: 'none', md:'table-cell'}}}
-                >
-                評価総数
-                </StyledTableCell>
-                <StyledTableCell
-                    align="center"
-                    sx={{display: {xs: 'none', md:'table-cell'}}}
-                >
-                距離（km）
-                </StyledTableCell>
+                {/* ー－－－－－－－－－－－－↑PC用レイアウト↑ー－－－－－－－－ */}
             </TableRow>
         </TableHead>
     )
