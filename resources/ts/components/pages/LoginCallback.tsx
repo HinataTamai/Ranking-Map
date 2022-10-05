@@ -19,7 +19,7 @@ const LoginCallback:FC  =  memo(() => {
 
     return(
         <HeaderAndFooterLayout>
-            <LoadingCircle/>
+            <LoadingCircle interval={200}/>
             <AlertMessage/>
         </HeaderAndFooterLayout>
     );

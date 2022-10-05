@@ -5,7 +5,7 @@ import TableRow from '@mui/material/TableRow';
 import TableBody from '@mui/material/TableBody';
 import Paper from '@mui/material/Paper';
 import TableCell from '@mui/material/TableCell';
-import { Box, Pagination, TableFooter} from '@mui/material';
+import { Box, Pagination, TableFooter, Typography} from '@mui/material';
 
 import LoadingCircle from '../atoms/LoadingCircle';
 import { TextSelect } from '../atoms/TextSelect';
@@ -16,6 +16,7 @@ import { FavoriteTableRow } from './FavoriteTableRow';
 import { useFavorite } from '../../hooks/api/useFavorite';
 import { favoritesType, favoriteType } from '../pages/Favorite';
 import { AlertMessage } from '../atoms/AlertMessage';
+import { Stack } from "@mui/system";
 
 
 
@@ -89,13 +90,24 @@ export const FavoriteTable:FC = () => {
     if(!favorites) {
         return(
             <>
-            <LoadingCircle/>
+            <Stack justifyContent='center' sx={{height: '80vh'}}>
+                <LoadingCircle interval={200}/>
+            </Stack>
             <AlertMessage/>
             </>
         );
     } else if (favorites[0] === undefined) {
         return(
-            <p>お気に入り施設は登録されていません。</p>
+            <>
+            <Stack justifyContent='center' alignItems='center' sx={{height: '70vh'}}>
+                <Typography 
+                    variant='body1' 
+                    sx={{fontSize: {xs: '1.2rem', sm: '1.4rem', md: '1.6rem'}, fontWeigh: 'bold'}}>
+                    お気に入り施設が登録されていません。
+                </Typography>
+            </Stack>
+            <AlertMessage/>
+            </>
         );
     }else {
         return(
@@ -113,7 +125,7 @@ export const FavoriteTable:FC = () => {
                                 isLoading 
                                 ?  <TableRow>
                                         <TableCell colSpan={5}>
-                                            <LoadingCircle />
+                                            <LoadingCircle interval={200} />
                                         </TableCell>
                                     </TableRow>
                                 :    (rowsPerPage > 0

@@ -193,49 +193,15 @@ export const useMap = () => {
     //返却：Promiseオブジェクト。
     //then：比較しやすい形に変換された連想配列。型は「resultsType」
     //catch：呼び出し先でアラート表示
-    const createData = async (dataList:google.maps.places.PlaceResult[]) => {
+    const createData = async (
+        dataList: google.maps.places.PlaceResult[],
+        originLocation: Location
+        ) => {
 
         //最終的に返却する値（この時点では空配列）
         let establishmentsData:resultsType= [];
-        
-        //出発地点の緯度、経度が格納される変数
-        let originLocation = {
-            lat:0,
-            lng:0
-        };
 
-        //出発地点の値にしたがって位置情報を取得
-        if(location == '現在地'){
-            
-            //現在地の位置情報を取得
-            await getPosition().then((value) => {
-                originLocation.lat = value.lat;
-                originLocation.lng = value.lng;
-            }).catch(() => {
-                changeAlertStatus(
-                    true,
-                    '位置情報取得中に問題が発生しました。',
-                    'error',
-                    'bottom',
-                    'center'
-                );
-            });
-        } else {
 
-            //指定された検索地点の位置情報を取得
-            await getDesignatedLocation().then(( value ) => {
-                originLocation.lat = value.lat;
-                originLocation.lng = value.lng;
-            }).catch(() => {
-                changeAlertStatus(
-                    true,
-                    '位置情報取得中に問題が発生しました。',
-                    'error',
-                    'bottom',
-                    'center'
-                );
-            });
-        };
 
         //最終的に返却される値の中身をつくっていく
         for(let data of dataList) {
@@ -317,15 +283,15 @@ export const useMap = () => {
         let data:google.maps.places.PlaceResult[] = [];
 
         //検索地点の値に合わせて緯度・経度を取得
-        let searchLocation:{lat : number, lng:number} = {
+        let originLocation:{lat : number, lng:number} = {
             lat:0,
             lng:0
         }
 
         if( location == '現在地') {
             await getPosition().then(( value ) => {
-                searchLocation.lat = value.lat;
-                searchLocation.lng = value.lng;
+                originLocation.lat = value.lat;
+                originLocation.lng = value.lng;
             }).catch(() => {
                 changeAlertStatus(
                     true,
@@ -338,8 +304,8 @@ export const useMap = () => {
         } else {
             //指定された検索地点の位置情報を取得
             await getDesignatedLocation().then(( value ) => {
-                searchLocation.lat = value.lat;
-                searchLocation.lng = value.lng;
+                originLocation.lat = value.lat;
+                originLocation.lng = value.lng;
             }).catch(() => {
                 changeAlertStatus(
                     true,
@@ -353,7 +319,7 @@ export const useMap = () => {
 
 
         //取得した緯度・経度からlocationを決定
-        let gMapLocation:google.maps.LatLng = new google.maps.LatLng(searchLocation.lat,searchLocation.lng);
+        let gMapLocation:google.maps.LatLng = new google.maps.LatLng(originLocation.lat,originLocation.lng);
 
 
         const request = {
@@ -390,8 +356,8 @@ export const useMap = () => {
                         {/*ー－－－－－－－－－ー－－ここまでー－－－－－－－－－－－－ */}
 
                         //createDataは取得したデータをソートしやすい形に変換する関数
-                        //プロミスオブジェクトを返す非同期関数
-                        const createdData =  createData(results!);
+                        //Promiseオブジェクトを返す非同期関数
+                        const createdData =  createData(results!, originLocation);
                         createdData.then((results:resultsType) => {
                             sort(results, rateCriteria, ratingsTotalCriteria, distanceCriteria);
                             setResults(results);

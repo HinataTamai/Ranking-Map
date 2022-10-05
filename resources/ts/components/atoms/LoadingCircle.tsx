@@ -6,9 +6,9 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { memo, useState, useEffect, FC } from 'react';
 
-function CircularProgressWithLabel(
+const CircularProgressWithLabel = (
     props: CircularProgressProps & { value: number },
-) {
+) => {
     return (
     <Box  sx={{ position: 'relative', display: 'inline-flex', width:'100%', justifyContent:'center', my:'30px' }}>
         <CircularProgress variant="determinate" {...props} />
@@ -34,15 +34,19 @@ function CircularProgressWithLabel(
     );
 }
 
+type Props = {
+    interval: number;
+}
 
+const LoadingCircle = memo((props:Props) => {
 
-const LoadingCircle = memo(() => {
+    const { interval } = props;
 
-    const [progress, setProgress] = useState(10);
+    const [progress, setProgress] = useState(0);
     useEffect(() => {
         const timer = setInterval(() => {
         setProgress((prevProgress) => (prevProgress >= 100 ? 0 : prevProgress + 10));
-        }, 800);
+        }, interval);
         return () => {
         clearInterval(timer);
         };
