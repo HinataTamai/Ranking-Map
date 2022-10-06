@@ -133,7 +133,7 @@ const Login:FC  =  memo(() => {
                             src={ GoogleIcon }  
                             sx={{
                                 display: 'block',
-                                width: {xs: '65%', sm: '50%', md: '45%'},
+                                width: {xs: '75%', sm: '60%', md: '50%'},
                                 mt: '2vh',
                                 mb: '1.5vh',
                                 mx: 'auto', 
@@ -149,7 +149,7 @@ const Login:FC  =  memo(() => {
                             src={ LineIcon }  
                             sx={{
                                 display: 'block',
-                                width: {xs: '64%', sm: '49%', md: '44%'}, 
+                                width: {xs: '74%', sm: '59%', md: '49%'}, 
                                 mx: 'auto', 
                                 cursor: 'pointer',
                             }}
