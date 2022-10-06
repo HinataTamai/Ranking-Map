@@ -4,7 +4,7 @@ import { useAuth } from "../../hooks/api/useAuth";
 import { Button, Checkbox, Chip, Divider, FormControl, FormControlLabel, FormHelperText, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField } from "@mui/material";
 import { Box, Stack } from "@mui/system";
 import GoogleIcon from './../../../images/btn_google_signin_dark_normal_web@2x.png';
-import LineIcon from './../../../images/btn_login_base.png';
+import LineIcon from './../../../images/LINE_Login_Button.svg';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { AlertMessage } from "../atoms/AlertMessage";
@@ -149,7 +149,7 @@ const Login:FC  =  memo(() => {
                             src={ LineIcon }  
                             sx={{
                                 display: 'block',
-                                width: {xs: '60%', sm: '45%', md: '40%'}, 
+                                width: {xs: '64%', sm: '49%', md: '44%'}, 
                                 mx: 'auto', 
                                 cursor: 'pointer',
                             }}

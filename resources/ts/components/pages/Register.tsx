@@ -7,7 +7,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import GoogleIcon from './../../../images/btn_google_signin_dark_normal_web@2x.png';
 import { AlertMessage } from "../atoms/AlertMessage";
-import LineIcon from './../../../images/btn_login_base.png';
+import LineIcon from './../../../images/LINE_Login_Button.svg';
 import axios from "axios";
 
 
@@ -159,7 +159,7 @@ const Register:FC  =  memo(() => {
                             src={ LineIcon }  
                             sx={{
                                 display: 'block',
-                                width: {xs: '60%', sm: '45%', md: '40%'}, 
+                                width: {xs: '64%', sm: '49%', md: '44%'}, 
                                 mx: 'auto', 
                                 cursor: 'pointer',
                             }}
