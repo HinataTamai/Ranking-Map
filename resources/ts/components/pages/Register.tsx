@@ -143,7 +143,7 @@ const Register:FC  =  memo(() => {
                             src={ GoogleIcon }  
                             sx={{
                                 display: 'block',
-                                width: {xs: '75%', sm: '60%', md: '50%'},
+                                width: {xs: '75%', sm: '60%', md: '45%'},
                                 mt: '2vh',
                                 mb: '1.5vh',
                                 mx: 'auto', 
@@ -159,7 +159,7 @@ const Register:FC  =  memo(() => {
                             src={ LineIcon }  
                             sx={{
                                 display: 'block',
-                                width: {xs: '74%', sm: '59%', md: '49%'}, 
+                                width: {xs: '74%', sm: '59%', md: '44%'}, 
                                 mx: 'auto', 
                                 cursor: 'pointer',
                             }}
