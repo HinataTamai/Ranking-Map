@@ -81,7 +81,7 @@ const Register:FC  =  memo(() => {
                 sx={{
                     width: {xs: '85%', sm: '65%', md: '50%'},
                     maxWidth: 600,
-                    height:'70%', 
+                    height:'fit-content', 
                     mx: 'auto', 
                     my: '10vh'
                 }}
@@ -133,7 +133,7 @@ const Register:FC  =  memo(() => {
                 <Button variant="contained" type="submit">登録</Button>
                 </Stack>
             </form>
-            <Box sx={{mt:3}}>
+                <Box sx={{mt:3}}>
                     <Box><Divider><Chip label='or'/></Divider></Box>
                     <Box sx={{height: 'fit-content'}}>
                         <Box 

@@ -78,7 +78,7 @@ const Login:FC  =  memo(() => {
                 sx={{
                     width: {xs: '85%', sm: '65%', md: '50%'},
                     maxWidth: 600,
-                    height:'70%', 
+                    height:'fit-content', 
                     mx: 'auto', 
                     my: '5vh'
                 }}
