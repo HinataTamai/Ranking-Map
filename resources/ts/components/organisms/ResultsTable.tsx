@@ -8,7 +8,7 @@ import Paper from '@mui/material/Paper';
 import { Box, Pagination, TableFooter} from '@mui/material';
 
 import { TextSelect } from '../atoms/TextSelect';
-import  resultType  from '../../types/resultType';
+import  { resultType }  from '../../types/SearchResults';
 import LoadingCircle from '../atoms/LoadingCircle';
 import { DisplaySelect } from '../atoms/DisplaySelect';
 import { DataTableContext } from '../../providers/DataTableProvider';
@@ -16,7 +16,7 @@ import { ResultsTableRow } from './ResultsTableRow';
 import { ResultsTableHead } from './ResultsTableHead';
 import { SearchCriteriaContext } from '../../providers/SearchCriteriaProvider';
 import { useFavorite } from '../../hooks/api/useFavorite';
-import { favoritesType } from '../pages/Favorite';
+import { favoritesType } from '../../types/FavoriteTypes';
 import { AuthContext } from '../../providers/AuthProvider';
 
 

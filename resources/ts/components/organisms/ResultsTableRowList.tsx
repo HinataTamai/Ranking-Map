@@ -4,7 +4,7 @@ import { styled } from "@mui/system";
 
 import { useDataTable } from "../../hooks/useDataTable";
 import { DataTableContext } from "../../providers/DataTableProvider";
-import resultType from "../../types/resultType";
+import { resultType } from "../../types/SearchResults";
 
 const StyledListItem = styled(ListItem)({
     display:'flex',

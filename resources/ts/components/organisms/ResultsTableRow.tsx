@@ -8,12 +8,12 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarIcon from '@mui/icons-material/Star';
 
-import  resultType  from '../../types/resultType';
+import { resultType } from '../../types/SearchResults';
 import { ResultsTableRowList } from './ResultsTableRowList';
 import { RouteButton } from '../atoms/RouteButton';
 import { useFavorite } from '../../hooks/api/useFavorite';
 import { displayItems } from './ResultsTable';
-import { favoritesType } from '../pages/Favorite';
+import { favoritesType } from '../../types/FavoriteTypes';
 import { AuthContext } from '../../providers/AuthProvider';
 
 

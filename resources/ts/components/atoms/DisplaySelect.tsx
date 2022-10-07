@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { Theme, useTheme } from '@mui/material/styles';
+
 import Box from '@mui/material/Box';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
@@ -9,6 +8,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
 import { Checkbox, FormHelperText, ListItemText } from '@mui/material';
 import { DataTableContext } from '../../providers/DataTableProvider';
+import { memo, useContext, useState } from 'react';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -28,12 +28,12 @@ const items = [
 ];
 
 
-export const DisplaySelect = React.memo(() => {
-    const theme = useTheme();
-    const [error, setError ] = React.useState<boolean>(false);
-    const [errorMessage, setErrorMessage] = React.useState<string>('');
+export const DisplaySelect = memo(() => {
 
-    const { display,setDisplay } = React.useContext(DataTableContext);
+    const [error, setError ] = useState<boolean>(false);
+    const [errorMessage, setErrorMessage] = useState<string>('');
+
+    const { display,setDisplay } = useContext(DataTableContext);
 
     const handleChange = (event: SelectChangeEvent<typeof display>) => {
         const { target: { value } } = event;

@@ -14,7 +14,7 @@ import { DataTableContext } from '../../providers/DataTableProvider';
 import { FavoriteTableHead } from './FavoriteTableHead';
 import { FavoriteTableRow } from './FavoriteTableRow';
 import { useFavorite } from '../../hooks/api/useFavorite';
-import { favoritesType, favoriteType } from '../pages/Favorite';
+import { favoritesType, favoriteType } from '../../types/FavoriteTypes';
 import { AlertMessage } from '../atoms/AlertMessage';
 import { Stack } from "@mui/system";
 

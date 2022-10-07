@@ -12,16 +12,14 @@ import { PriorityRadios } from '../organisms/PriorityRadios';
 import { SwitchWithLabel } from '../molecules/SwitchWithLabel';
 import theme from "../../Theme";
 import { useSearchCriteria } from '../../hooks/api/useSearchCriteria'
-import { useAlert } from "../../hooks/useAlert";
 import { RadiusValues } from "./Search";
 
 
 
 const CriteriaSetting:FC  =  memo(() => {
 
-    const navigate = useNavigate();
     const { indexSearchCriteria, storeSearchCriteria, deleteSearchCriteria } = useSearchCriteria();
-    const { changeAlertStatus } = useAlert();
+
 
     const [ location ,setLocation ] = useState('現在地');
     const [ hasCriteria, setHasCriteria ] = useState(false); 
@@ -32,6 +30,7 @@ const CriteriaSetting:FC  =  memo(() => {
     const [ distanceCriteria ,setDistance ] = useState('unspecified');
     const [ radius, setRadius ] = useState(5000);
     const [ onlyIsOpen, setOnlyIsOpen ] = useState(false);
+    
 
     const handleChangeLocation = (e: React.ChangeEvent<HTMLInputElement>) => {
         setLocation(e.target.value);

@@ -1,4 +1,4 @@
-import resultsType from "../types/resultsType";
+import {resultsType} from "../types/SearchResults";
 
 export const useSort = () => {
 

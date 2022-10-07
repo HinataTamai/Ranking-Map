@@ -1,6 +1,6 @@
 import { Button, Typography } from "@mui/material";
 import { FC, memo, ReactNode, useContext } from "react";
-import resultType from "../../types/resultType";
+
 import AssistantDirectionIcon from '@mui/icons-material/AssistantDirection';
 import { SearchCriteriaContext } from "../../providers/SearchCriteriaProvider";
 

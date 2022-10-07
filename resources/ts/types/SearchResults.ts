@@ -1,4 +1,4 @@
-type resultsType = {
+export type resultType = {
     id: number | undefined;
     name: string;
     rating: number;
@@ -13,6 +13,7 @@ type resultsType = {
     destinationPlaceId: string;
     photoUrl: string;
     photoAttribution: string;
-    }[]
+}
 
-export default resultsType;
+export type resultsType = resultType[]
+

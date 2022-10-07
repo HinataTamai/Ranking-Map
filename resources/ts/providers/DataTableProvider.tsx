@@ -1,5 +1,5 @@
 import { createContext, FC, memo, useState } from "react";
-import resultsType from "../types/resultsType";
+
 
 
 export const DataTableContext = createContext({} as {

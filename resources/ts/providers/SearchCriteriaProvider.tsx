@@ -1,5 +1,5 @@
 import { createContext, FC, memo, useState } from "react";
-import resultsType from "../types/resultsType";
+import { resultsType } from "../types/SearchResults";
 
 
 export const SearchCriteriaContext = createContext({} as {

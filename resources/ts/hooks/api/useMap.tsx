@@ -2,8 +2,8 @@ import axios from "axios";
 import { useContext, useState } from "react";
 import { DataTableContext } from "../../providers/DataTableProvider";
 import { SearchCriteriaContext } from "../../providers/SearchCriteriaProvider";
-import resultsType from "../../types/resultsType";
-import resultType from "../../types/resultType";
+import { resultsType } from "../../types/SearchResults";
+import { resultType } from "../../types/SearchResults";
 import { useAlert } from "../useAlert";
 import { useSort } from "../useSort";
 

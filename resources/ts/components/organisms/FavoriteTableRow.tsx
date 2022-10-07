@@ -7,7 +7,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 import { RouteButton } from '../atoms/RouteButton';
-import { favoriteType } from '../pages/Favorite';
+import { favoriteType } from '../../types/FavoriteTypes';
 import { DeleteButton } from '../atoms/DeleteButton';
 import theme from '../../Theme';
 import { useFavorite } from '../../hooks/api/useFavorite';

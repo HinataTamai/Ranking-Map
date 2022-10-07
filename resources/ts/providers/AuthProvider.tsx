@@ -1,5 +1,5 @@
 import React, { createContext, FC, memo, useState } from "react";
-import resultsType from "../types/resultsType";
+
 
 type userInfo = {
     isLogin: boolean,
