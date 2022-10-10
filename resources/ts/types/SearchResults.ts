@@ -1,5 +1,5 @@
 export type resultType = {
-    id: number | undefined;
+    id: number ;
     name: string;
     rating: number;
     distance: number;

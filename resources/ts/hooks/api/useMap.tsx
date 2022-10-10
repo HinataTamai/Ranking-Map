@@ -167,7 +167,7 @@ export const useMap = () => {
 
     //2地点間の直線距離を求める関数
     //第一引数：緯度（1地点目）, 第二引数：経度（1地点目）
-    //第一引数：緯度（2地点目）, 第二引数：経度（2地点目）
+    //第三引数：緯度（2地点目）, 第四引数：経度（2地点目）
     //返却：2地点間の直線距離（㎞）
     const calcDistance = (
         lat1:number, 
@@ -209,7 +209,7 @@ export const useMap = () => {
             //返却される値「establishmentsData」の要素となる
             //「establishmentData」を作成
             let establishmentData:resultType = {
-                id:undefined,
+                id: 0,
                 name:'',
                 rating:0,
                 distance:0,
@@ -225,8 +225,8 @@ export const useMap = () => {
                 photoAttribution: ''
             };
 
-            //データに固有の番号をふる(ソートに使う用)
-            establishmentData.id = dataList.indexOf(data) + 1;
+            //データに固有の番号をふる(map関数のkeyに渡す用)
+            establishmentData.id = dataList.indexOf(data);
 
             establishmentData.name = data.name ? data.name : '' ;
             establishmentData.rating = data.rating ? data.rating : 0;
