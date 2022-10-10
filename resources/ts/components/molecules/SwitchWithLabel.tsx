@@ -1,7 +1,7 @@
 import * as React from 'react';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import { SwitchButton } from '../atoms/SwitchButton';
+import { Switch } from '@mui/material';
 
 type Props = {
     label:string;
@@ -19,9 +19,9 @@ export const SwitchWithLabel:React.FC<Props> = React.memo((props) => {
         <FormControlLabel
             sx={{ml: 0, mr: 'auto', justifyContent: 'space-around', width:'100%', maxWidth:370}}
             control={
-            <SwitchButton 
+            <Switch
                 checked={checked}
-                handleChange={handleChange}
+                onChange={handleChange}
                 defaultChecked={defaultChecked} 
             />
             } 

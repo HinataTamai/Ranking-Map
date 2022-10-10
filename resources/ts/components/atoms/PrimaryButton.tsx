@@ -1,5 +1,5 @@
-import { Button, Typography } from "@mui/material";
 import { FC, memo } from "react";
+import { Button, Typography } from "@mui/material";
 
 type Props = {
     children: React.ReactNode;
@@ -12,7 +12,14 @@ type Props = {
 
 export const PrimaryButton:FC<Props> = memo( (props) => {
 
-    const { children, disabled, fullWidth, variant = 'contained', color = "primary", onClick } = props;
+    const { 
+        children, 
+        disabled, 
+        fullWidth, 
+        variant = 'contained', 
+        color = "primary", 
+        onClick 
+    } = props;
 
     return(
         <Button 

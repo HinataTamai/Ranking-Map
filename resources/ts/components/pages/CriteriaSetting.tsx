@@ -1,12 +1,11 @@
 import React, { FC, memo, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";
 import { Stack } from "@mui/system";
-import { Divider, Typography } from "@mui/material";
+import { Divider, TextField, Typography } from "@mui/material";
 
 import { AlertMessage } from "../atoms/AlertMessage";
 import { PrimaryButton } from "../atoms/PrimaryButton";
 import { HeaderAndFooterLayout } from "../templates/HeaderAndFooterLayout";
-import { TextInput } from '../atoms/TextInput';
 import { TextSelect } from '../atoms/TextSelect';
 import { PriorityRadios } from '../organisms/PriorityRadios';
 import { SwitchWithLabel } from '../molecules/SwitchWithLabel';
@@ -129,7 +128,7 @@ const CriteriaSetting:FC  =  memo(() => {
                     検索条件を初期化
                 </PrimaryButton>
                 </Stack>
-                <TextInput
+                <TextField
                     id='searchLocation' 
                     label="検索地点" 
                     type="search" 
@@ -137,7 +136,7 @@ const CriteriaSetting:FC  =  memo(() => {
                     value={location}
                     onChange={handleChangeLocation}
                 />
-                <TextInput
+                <TextField
                     id='keyword' 
                     label="キーワード" 
                     type="search" 

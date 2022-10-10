@@ -1,10 +1,7 @@
-
-import CircularProgress, {
-    CircularProgressProps,
-} from '@mui/material/CircularProgress';
+import { memo, useState, useEffect, FC } from 'react';
+import CircularProgress, { CircularProgressProps } from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { memo, useState, useEffect, FC } from 'react';
 
 const CircularProgressWithLabel = (
     props: CircularProgressProps & { value: number },
@@ -38,7 +35,7 @@ type Props = {
     interval: number;
 }
 
-const LoadingCircle = memo((props:Props) => {
+const LoadingCircle:FC<Props> = memo((props) => {
 
     const { interval } = props;
 

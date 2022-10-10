@@ -1,14 +1,11 @@
-import { FormControl, FormLabel, RadioGroup, Stack } from "@mui/material";
 import React, { FC, memo } from "react";
-import { RadioButton } from "../atoms/RadioButton";
+import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Stack } from "@mui/material";
 
 type Props = {
-    label_1: string;
-    label_2: string;
-    label_3: string;
-    value_1: string;
-    value_2: string;
-    value_3: string;
+    contents: {
+        label: string,
+        value: string
+    }[];
     required?: boolean;
     radioTitle:string;
     value: string;
@@ -20,7 +17,7 @@ export const PriorityRadio:FC<Props> = memo( (props) => {
 
 
 
-    const { label_1, label_2, value_1, value_2, label_3, value_3,required, radioTitle, value, my, onChange } = props;
+    const { contents, required, radioTitle, value, my, onChange } = props;
 
     return(
         <>
@@ -42,9 +39,14 @@ export const PriorityRadio:FC<Props> = memo( (props) => {
                     }}
                     sx={{width:{xs: '40%', sm: '100%'}}}
                 >
-                <RadioButton label={label_1} value={value_1} />
-                <RadioButton label={label_2} value={value_2} />
-                <RadioButton label={label_3} value={value_3} />
+                {contents.map(content => (
+                    <FormControlLabel 
+                        key={content.label}
+                        control={<Radio/>} 
+                        label={content.label} 
+                        value={content.value} 
+                    />
+                ))}
                 </Stack>
             </RadioGroup>
         </FormControl>

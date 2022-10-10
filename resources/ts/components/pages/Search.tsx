@@ -1,4 +1,4 @@
-import { Button, Stack, Typography } from "@mui/material";
+import { Button, Stack, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { FC, memo, useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";
@@ -10,7 +10,6 @@ import { SearchCriteriaContext } from "../../providers/SearchCriteriaProvider";
 import { AlertMessage } from "../atoms/AlertMessage";
 import { PrimaryButton } from "../atoms/PrimaryButton";
 
-import { TextInput } from '../atoms/TextInput';
 import { TextSelect } from "../atoms/TextSelect";
 import { SwitchWithLabel } from "../molecules/SwitchWithLabel";
 import { PriorityRadios } from "../organisms/PriorityRadios";
@@ -188,7 +187,7 @@ const Search:FC  = () => {
                 maxWidth: 700
             }}
         >
-            <TextInput
+            <TextField
                 id='searchLocation' 
                 label="検索地点" 
                 type="search" 
@@ -197,7 +196,7 @@ const Search:FC  = () => {
                 value={location}
                 onChange={(e:React.ChangeEvent<HTMLInputElement>) => handleChangePlace(e)}
             />
-            <TextInput
+            <TextField
                 id='keyword' 
                 label="キーワード" 
                 type="search" 

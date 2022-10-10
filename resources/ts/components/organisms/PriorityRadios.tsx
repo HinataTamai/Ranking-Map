@@ -25,12 +25,11 @@ export const PriorityRadios:FC<Props> = memo( (props) => {
             <Box>
             <PriorityRadio
                 value={rateValue}
-                label_1="高い順"
-                value_1="heigh"
-                label_2="低い順"
-                value_2="low"
-                label_3='指定なし'
-                value_3='unspecified'
+                contents={[
+                    {label: '高い順', value: 'heigh'},
+                    {label: '低い順', value: 'low'},
+                    {label: '指定なし', value: 'unspecified'},
+                ]}
                 required
                 radioTitle="レビュー評価"
                 my='10px'
@@ -41,12 +40,11 @@ export const PriorityRadios:FC<Props> = memo( (props) => {
             <Box>
             <PriorityRadio
                 value={ratingsTotalValue}
-                label_1="多い順"
-                value_1="many"
-                label_2="少ない順"
-                value_2="few"
-                label_3='指定なし'
-                value_3='unspecified'
+                contents={[
+                    {label: '多い順', value: 'many'},
+                    {label: '少ない順', value: 'few'},
+                    {label: '指定なし', value: 'unspecified'},
+                ]}
                 required
                 radioTitle="評価数"
                 my='10px'
@@ -57,12 +55,11 @@ export const PriorityRadios:FC<Props> = memo( (props) => {
             <Box>
             <PriorityRadio
                 value={distanceValue}
-                label_1="近い順"
-                value_1="near"
-                label_2="遠い順"
-                value_2="far"
-                label_3='指定なし'
-                value_3='unspecified'
+                contents={[
+                    {label: '近い順', value: 'near'},
+                    {label: '遠い順', value: 'far'},
+                    {label: '指定なし', value: 'unspecified'},
+                ]}
                 required
                 radioTitle="検索地点からの距離"
                 my='10px'
