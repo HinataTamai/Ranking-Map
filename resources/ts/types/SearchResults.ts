@@ -11,7 +11,7 @@ export type resultType = {
         lng: number | undefined
     };
     destinationPlaceId: string;
-    photoUrl: string;
+    photoReference: string;
     photoAttribution: string;
 }
 

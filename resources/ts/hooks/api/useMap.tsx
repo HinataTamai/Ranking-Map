@@ -4,7 +4,7 @@ import { DataTableContext } from "../../providers/DataTableProvider";
 import { SearchCriteriaContext } from "../../providers/SearchCriteriaProvider";
 import { resultsType } from "../../types/SearchResults";
 import { resultType } from "../../types/SearchResults";
-import { useAlert } from "../useAlert";
+import { useBinary } from "../useBinary";
 import { useSort } from "../useSort";
 
 export const useMap = () => {
@@ -22,7 +22,7 @@ export const useMap = () => {
     const { setIsLoading } = useContext(DataTableContext);
 
     const { sort } = useSort();
-    const { changeAlertStatus } = useAlert();
+    const { convBase64 } = useBinary();
 
 
     //ある地点の緯度、経度の値が格納される連想配列の型
@@ -42,14 +42,7 @@ export const useMap = () => {
 
             // Geolocation APIに対応していない場合の処理
             if (!navigator.geolocation) {
-                changeAlertStatus(
-                    true,
-                    'geolocationAPIが利用出来ません。',
-                    'error',
-                    'bottom',
-                    'center'
-                );
-                reject();
+                reject({message: 'geolocationAPIが利用できません。'});
             };
 
             //オプション指定
@@ -82,83 +75,57 @@ export const useMap = () => {
                         console.log("位置情報取得中に原因不明のエラーが発生しました。(エラーコード:"+error.code+")");
                         break;
                 };
-                reject();
+                reject({message: '現在地を取得することが出来ません。'});
             },options);
         });
     };
 
 
-
-
+    
+    
     //指定された検索地点の位置情報を取得する非同期関数
     //引数：無し。
-    //返却：Promiseオブジェクト
-    //resolve：検索地点の緯度、経度が格納された連想配列
-    //reject：無し。呼び出し先でアラート表示。
-    const getDesignatedLocation = () => {
-        return new Promise( (resolve: (value:Location) => void, reject ) => {
+    //return：検索地点の緯度、経度が格納された連想配列。
+    //throw：エラーメッセージが格納された連想配列。
+    const getDesignatedLocation = async () => {
+        //最終的に返却する変数
+        let geometry = {
+            lat: 0,
+            lng: 0
+        }
 
-            //最終的に返却する値
-            let designatedLocation:Location = {
-                lat: 0,
-                lng: 0
-            };
-
-            //mapインスタンス生成
-
-            let map = new google.maps.Map(
-                document.createElement("div")
-            );
-
-            //placesServiceインスタンス生成
-            let service = new google.maps.places.PlacesService(map);
-
-            //requestの指定
-            const request = {
-                //検索したい文字列
-                query: location,
-                //取得したい情報を配列で表記する
-                fields:['geometry']
-            };
-    
-            service.findPlaceFromQuery( request, (
-                results: google.maps.places.PlaceResult[] | null,
-                status: google.maps.places.PlacesServiceStatus,
-            ) => {
-                console.log('findPlaceApi');
-                if (status === google.maps.places.PlacesServiceStatus.OK){
-
-                    if(results != null) {
-                        if(results[0].geometry && results[0].geometry.location) {
-                            designatedLocation.lat = results[0].geometry.location.lat();
-                            designatedLocation.lng = results[0].geometry.location.lng();
-                        };
-                        resolve(designatedLocation);
-                    };
-                } else {
-                    //エラー時のログ出し分け
-                    switch(status) {
-                        case 'INVALID_REQUEST':
-                            console.log('FindPlaceError:このリクエストは無効です。');
-                            break;
-                        case 'OVER_QUERY_LIMIT':
-                            console.log('FindPlaceError:リクエストの利用制限回数を超えました。');
-                            break;
-                        case 'REQUEST_DENIED':
-                            console.log('FindPlaceError:サービスが利用できない状況でした。');
-                            break;
-                        case 'UNKNOWN_ERROR':
-                            console.log('FindPlaceError:サーバ接続に失敗しました。');
-                            break;
-                        case 'ZERO_RESULTS':
-                            console.log('FindPlaceError:検索結果が０件です。');
-                            break;
-                    }
-                    reject();
-                };
-            });
+        //Laravelに外部APIを呼び出してもらい、結果をReactが受け取る
+        const request = {
+            keyword: location
+        }
+        await axios.post('/api/geometry',request).then(res => {
+            const status = res.data.status;
+            if( status == 'OK') {
+                geometry = res.data.candidates[0].geometry.location;
+            } else {
+                switch(status) {
+                    case 'INVALID_REQUEST':
+                        console.log('FindPlaceError:このリクエストは無効です。');
+                        break;
+                    case 'OVER_QUERY_LIMIT':
+                        console.log('FindPlaceError:リクエストの利用制限回数を超えました。');
+                        break;
+                    case 'REQUEST_DENIED':
+                        console.log('FindPlaceError:サービスが利用できない状況でした。');
+                        break;
+                    case 'UNKNOWN_ERROR':
+                        console.log('FindPlaceError:サーバ接続に失敗しました。');
+                        break;
+                    case 'ZERO_RESULTS':
+                        console.log('FindPlaceError:検索結果が０件です。');
+                        break;
+                }
+            }
+        }).catch(() => {
+            throw({message: '位置情報の取得に失敗しました。'});
         });
-    };
+        return(geometry);
+    }
 
 
 
@@ -193,8 +160,8 @@ export const useMap = () => {
     //返却：Promiseオブジェクト。
     //then：比較しやすい形に変換された連想配列。型は「resultsType」
     //catch：呼び出し先でアラート表示
-    const createData = async (
-        dataList: google.maps.places.PlaceResult[],
+    const createData = (
+        dataList: any,
         originLocation: Location
         ) => {
 
@@ -221,7 +188,7 @@ export const useMap = () => {
                     lng: undefined
                 },
                 destinationPlaceId:'',
-                photoUrl: '',
+                photoReference: '',
                 photoAttribution: ''
             };
 
@@ -238,8 +205,8 @@ export const useMap = () => {
             establishmentData.destinationPlaceId = data.place_id
                                                 ? data.place_id
                                                 : '';
-            establishmentData.photoUrl = data.photos
-                                    ? data.photos[0].getUrl()
+            establishmentData.photoReference = data.photos
+                                    ? data.photos[0].photo_reference
                                     : '';
             if(data.photos && data.photos[0].html_attributions){
                 establishmentData.photoAttribution = data.photos[0].html_attributions[0];
@@ -250,8 +217,8 @@ export const useMap = () => {
                 establishmentData.distance = Math.round((calcDistance(
                     originLocation.lat, 
                     originLocation.lng, 
-                    data.geometry.location.lat(), 
-                    data.geometry.location.lng()
+                    data.geometry.location.lat, 
+                    data.geometry.location.lng
                 ) * 1.3) * 10) / 10;
             };
             
@@ -271,16 +238,6 @@ export const useMap = () => {
         //ローディングを開始
         setIsLoading(true);
 
-        //mapインスタンス生成
-        let map = new google.maps.Map(
-            document.createElement("div")
-        );
-
-        //placesServiceインスタンス生成
-        let service = new google.maps.places.PlacesService(map);
-
-        //取得結果が格納される変数
-        let data:google.maps.places.PlaceResult[] = [];
 
         //検索地点の値に合わせて緯度・経度を取得
         let originLocation:{lat : number, lng:number} = {
@@ -292,136 +249,84 @@ export const useMap = () => {
             await getPosition().then(( value ) => {
                 originLocation.lat = value.lat;
                 originLocation.lng = value.lng;
-            }).catch(() => {
-                changeAlertStatus(
-                    true,
-                    '位置情報取得中に問題が発生しました。',
-                    'error',
-                    'bottom',
-                    'center'
-                );
+            }).catch((error) => {
+                throw(error);
             });
         } else {
             //指定された検索地点の位置情報を取得
             await getDesignatedLocation().then(( value ) => {
                 originLocation.lat = value.lat;
                 originLocation.lng = value.lng;
-            }).catch(() => {
-                changeAlertStatus(
-                    true,
-                    '位置情報取得中に問題が発生しました。',
-                    'error',
-                    'bottom',
-                    'center'
-                );
+            }).catch((error) => {
+                throw(error);
             });
         };
-
-
-        //取得した緯度・経度からlocationを決定
-        let gMapLocation:google.maps.LatLng = new google.maps.LatLng(originLocation.lat,originLocation.lng);
 
 
         const request = {
             //検索キーワードの値が入る
             keyword: keyword,
             //指定した検索地点
-            location: gMapLocation,
+            lat: originLocation.lat,
+            lng: originLocation.lng,
             //検索範囲の値が入る
-            radius: radiusCriteria,
+            radius: String(radiusCriteria),
             //「現在営業中の施設のみ表示」の値が入る
             openNow: extractOnlyIsOpen,
         };
 
-
-        service.nearbySearch(request,
-            (
-                results: google.maps.places.PlaceResult[] | null,
-                status: google.maps.places.PlacesServiceStatus,
-                pagination: google.maps.places.PlaceSearchPagination | null,
-            ) => {
-                console.log('nearbySearchApi');
-                switch(status) {
-                    case 'OK':
-                        {/*ー－－－－－－↓20件以上取得したい場合に必要な処理↓ー－－－－－ */}
-                        // if (results != null) {
-                        //     data = data.concat(results);
-                        // };
-                        //pagination.hasNextPage == true の場合は続きの情報アリ
-                        //pagination.nextPageで続き情報取得
-                        // if(pagination && pagination.hasNextPage) {
-                        //     pagination.nextPage();
-                        // } else {
-                        // }
-                        {/*ー－－－－－－－－－ー－－ここまでー－－－－－－－－－－－－ */}
-
-                        //createDataは取得したデータをソートしやすい形に変換する関数
-                        //Promiseオブジェクトを返す非同期関数
-                        const createdData =  createData(results!, originLocation);
-                        createdData.then((results:resultsType) => {
-                            sort(results, rateCriteria, ratingsTotalCriteria, distanceCriteria);
-                            setResults(results);
-                            setIsLoading(false);
-                        }).catch((e:any) => {
-                            changeAlertStatus(
-                                true,
-                                '施設情報の取得に失敗しました。',
-                                'error',
-                                'bottom',
-                                'center'
-                            )
-                        })
-                        break;
+        await axios.post('/api/search', request).then(res => {
+            const status = res.data.status;
+            if(status == 'OK') {
+                let data = res.data.results;
+                
+                data = createData(data, originLocation);
+                sort(data, rateCriteria, ratingsTotalCriteria, distanceCriteria);
+                setResults(data);
+                setIsLoading(false);
+            } else {
+                setIsLoading(false);
+                switch (status) {
                     case 'INVALID_REQUEST':
-                        changeAlertStatus(
-                            true,
-                            'このリクエストは無効です。',
-                            'error',
-                            'bottom',
-                            'center'
-                        )
+                        throw('リクエストが無効です。');
                         break;
                     case 'OVER_QUERY_LIMIT':
-                        changeAlertStatus(
-                            true,
-                            'リクエストの利用制限回数を超えました。',
-                            'error',
-                            'bottom',
-                            'center'
-                        )
+                        throw('リクエストの利用制限回数を超過しました。');
                         break;
                     case 'REQUEST_DENIED':
-                        changeAlertStatus(
-                            true,
-                            'サービスが利用できない状況でした。',
-                            'error',
-                            'bottom',
-                            'center'
-                        )
+                        throw('サービスが利用できない状況です。');
                         break;
                     case 'UNKNOWN_ERROR':
-                        changeAlertStatus(
-                            true,
-                            'サーバ接続に失敗しました。',
-                            'error',
-                            'bottom',
-                            'center'
-                        )
+                        throw('サーバ接続に失敗しました。');
                         break;
                     case 'ZERO_RESULTS':
-                        setIsLoading(false);
-                        changeAlertStatus(
-                            true,
-                            '検索結果が０件です。',
-                            'error',
-                            'bottom',
-                            'center'
-                        )
+                        throw('検索結果が０件です。');
                         break;
                 }
             }
-        )
+        }).catch((e) => {
+            throw({message: e});
+        });
     }
 
-    return { getEstablishmentsData }
+    const getPlacePhoto = async (reference: string) => {
+        const data = {
+            reference
+        }
+        let photo:string = '';
+
+        await axios({
+            method: 'POST',
+            url: 'api/photo',
+            data,
+            responseType: 'arraybuffer'
+        }).then(res => {
+            photo = convBase64(res.data);
+        }).catch(e => {
+            throw({message: '画像の取得に失敗しました。'});
+        });
+        return photo;
+    }
+
+    return { getEstablishmentsData, getPlacePhoto }
 }

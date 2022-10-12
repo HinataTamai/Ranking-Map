@@ -3,7 +3,7 @@ export type favoriteType = {
     placeId: string;
     rate: string;
     userRatingsTotal: string;
-    photoUrl: string;
+    photoReference: string;
     photoAttribution: string;
 };
 

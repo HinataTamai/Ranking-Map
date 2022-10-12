@@ -1,10 +1,13 @@
 import { Button, Stack, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
+import axios from "axios";
 import React, { FC, memo, useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/api/useAuth";
 import { useMap } from "../../hooks/api/useMap";
 import { useSearchCriteria } from "../../hooks/api/useSearchCriteria";
+import { useAlert } from "../../hooks/useAlert";
+import { useBinary } from "../../hooks/useBinary";
 import { AuthContext } from "../../providers/AuthProvider";
 import { SearchCriteriaContext } from "../../providers/SearchCriteriaProvider";
 import { AlertMessage } from "../atoms/AlertMessage";
@@ -62,8 +65,8 @@ const Search:FC  = () => {
 
     const navigate = useNavigate();
     const { indexSearchCriteria } = useSearchCriteria();
+    const { changeAlertStatus } = useAlert();
     const { userInfo } = useContext(AuthContext);
-
 
     const {
             location,
@@ -114,7 +117,15 @@ const Search:FC  = () => {
     }
     const onClickSearch = () => {
         navigate('/results');
-        getEstablishmentsData();
+        getEstablishmentsData().catch(e => {
+            changeAlertStatus(
+                true,
+                e.message,
+                'error',
+                'bottom',
+                'center'
+            )
+        });
     }
     
 
@@ -170,6 +181,8 @@ const Search:FC  = () => {
             setExtractOnlyIsOpen(false);
         }
     },[userInfo]);
+
+
     
     return(
         <HeaderAndFooterLayout>

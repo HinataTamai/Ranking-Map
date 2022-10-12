@@ -11,6 +11,7 @@ import { favoriteType } from '../../types/FavoriteTypes';
 import { DeleteButton } from '../atoms/DeleteButton';
 import theme from '../../Theme';
 import { useFavorite } from '../../hooks/api/useFavorite';
+import { PlaceImage } from "../atoms/PlaceImage";
 
 
 
@@ -101,15 +102,7 @@ export const FavoriteTableRow:FC<Props> = ( props ) => {
                                 alignSelf: 'stretch'
                             }}
                         >
-                            <Box
-                                component='img' 
-                                src={favorite.photoUrl} 
-                                sx={{
-                                    width: '100%',
-                                    height: '100%',
-                                    objectFit:'cover',
-                                }}
-                            />
+                            <PlaceImage establishment={favorite} />
                         </Box>
                         <Stack 
                             spacing={ document.documentElement.clientWidth < 834 ? 2 :3} 

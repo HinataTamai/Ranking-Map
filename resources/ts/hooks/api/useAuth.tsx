@@ -14,6 +14,10 @@ export const useAuth = () => {
     const { setUserInfo } = useContext(AuthContext);
     
 
+    //新規登録処理
+    //第一引数：イベント
+    //第二引数：入力情報の連想配列
+    //第三引数：第二引数の連想配列を操作する関数（バリデーション表示用）
     const registerSubmit = (
         e: React.FormEvent<HTMLFormElement>,
         registerInput: registerInputType,
@@ -55,7 +59,10 @@ export const useAuth = () => {
         });
     }
 
-
+    //ログイン処理
+    //第一引数：イベント
+    //第二引数：入力情報の連想配列
+    //第三引数：第二引数の連想配列を操作する関数（バリデーション表示用）
     const loginSubmit = (
         e: React.FormEvent<HTMLFormElement>,
         loginInput: loginInputType,
@@ -112,6 +119,7 @@ export const useAuth = () => {
         });
     }
 
+    //ログアウト処理
     const logoutSubmit = () => {
         axios.post(`/api/logout`).then(res => {
             if (res.data.status === 200) {
@@ -138,6 +146,7 @@ export const useAuth = () => {
     }
 
 
+    //SNSアカウント連携のログイン処理
     const socialLogin = (provider: string, token: string) => {
         axios.get(`/api/login/${provider}/callback${token}`).then((res) => {
             if(res.data.status === 200){
@@ -157,7 +166,7 @@ export const useAuth = () => {
 
 
     //セッション状況を確認し、React側にログイン状況を伝える
-    //時間経過によるセッション切れをReactが感知するための関数。
+    //時間経過によるセッション切れをReact側が感知するための関数。
     const confirmIsLogin = () => {
         console.log('confirmIsLogin');
         axios.get('/api/confirm').then(res => {

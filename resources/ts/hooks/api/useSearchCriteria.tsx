@@ -14,6 +14,7 @@ export const useSearchCriteria = () => {
     const navigate = useNavigate();
     const { userInfo } = useContext(AuthContext);
 
+    //検索条件の取得
     const indexSearchCriteria = async () => {
         const userId = userInfo.id;
         const data = {
@@ -62,6 +63,7 @@ export const useSearchCriteria = () => {
         return criteria;
     }
 
+    //検索条件の保存
     const storeSearchCriteria = async (
         location: string,
         keyword: string,
@@ -116,6 +118,7 @@ export const useSearchCriteria = () => {
     }
 
 
+    //検索条件の消去
     const deleteSearchCriteria = async () => {
         const userId = userInfo.id;
         const data = { userId }

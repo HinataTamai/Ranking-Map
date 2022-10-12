@@ -7,6 +7,7 @@ use App\Http\Controllers\API\FavoriteController;
 use App\Http\Controllers\API\SearchCriteriaController;
 use App\Http\Controllers\API\LoginWithGoogleController;
 use App\Http\Controllers\API\IdentityProviderController;
+use App\Http\Controllers\API\PlacesApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +28,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 Route::get('confirm', [AuthController::class, 'confirm']);
+
+//Google maps Places API 関連のルーティング
+Route::post('search', [PlacesApiController::class, 'search']);
+Route::post('photo', [PlacesApiController::class, 'getPlacePhoto']);
+Route::post('geometry', [PlacesApiController::class, 'getLocation']);
+
 
 //Laravel側でアクセス制限を行いたいルーティングにミドルウェアのauth:sanctumを設定する。
 Route::middleware('auth:sanctum')->group(function() {

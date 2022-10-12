@@ -13,6 +13,7 @@ export const useFavorite = () => {
     const { userInfo } = useContext(AuthContext);
 
 
+    //お気に入り情報登録処理
     const storeFavorite = (name:string, placeId:string, rate:string, userRatingsTotal:string, photoUrl:string, photoAttribution:string) => {
 
         if(!userInfo.isLogin) {
@@ -47,6 +48,7 @@ export const useFavorite = () => {
     }
 
 
+    //お気に入り情報消去処理
     const deleteFavorite = (placeId:string) =>{
 
         const userId = userInfo.id;
@@ -70,6 +72,7 @@ export const useFavorite = () => {
         });
     }
 
+    //お気に入り情報一覧取得
     const indexFavorite = async () =>{
 
         const userId = userInfo.id;

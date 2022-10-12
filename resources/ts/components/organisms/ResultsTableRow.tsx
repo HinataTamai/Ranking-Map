@@ -11,10 +11,12 @@ import StarIcon from '@mui/icons-material/Star';
 import { resultType } from '../../types/SearchResults';
 import { ResultsTableRowList } from './ResultsTableRowList';
 import { RouteButton } from '../atoms/RouteButton';
+import { PlaceImage } from '../atoms/PlaceImage';
 import { useFavorite } from '../../hooks/api/useFavorite';
 import { displayItems } from './ResultsTable';
 import { favoritesType } from '../../types/FavoriteTypes';
 import { AuthContext } from '../../providers/AuthProvider';
+import { useMap } from "../../hooks/api/useMap";
 
 
 
@@ -48,11 +50,10 @@ type Props = {
     displayItems: displayItems;
 };
 
-export const ResultsTableRow:FC<Props> = memo( ( props ) => {
+export const ResultsTableRow:FC<Props> =  ( props ) => {
 
     const { result, displayItems, favorites } = props;
 
-    // const { displayItems } = useContext(DataTableContext);
     const { storeFavorite, deleteFavorite } = useFavorite();
     const { userInfo } = useContext(AuthContext);
     const isLogin = userInfo.isLogin;
@@ -74,7 +75,7 @@ export const ResultsTableRow:FC<Props> = memo( ( props ) => {
                 result.destinationPlaceId,
                 rate,
                 userRatingsTotal,
-                result.photoUrl,
+                result.photoReference,
                 result.photoAttribution
             );
         } else {
@@ -91,9 +92,10 @@ export const ResultsTableRow:FC<Props> = memo( ( props ) => {
             if(favorite.placeId === result.destinationPlaceId) {
                 setIsFavorite(true);
             }
-        }) ;
+        });
     },[]);
 
+    
 
     return(
         <>
@@ -158,11 +160,7 @@ export const ResultsTableRow:FC<Props> = memo( ( props ) => {
                                 alignSelf: 'stretch'
                             }}
                         >
-                            <Box
-                                component='img' 
-                                src={result.photoUrl} 
-                                sx={{ width: '100%', height: '100%', objectFit: 'cover'}}
-                            />
+                            <PlaceImage establishment={result} />
                         </Box>
                         <Stack spacing={2}  sx={{ width: '35%', height: '100%',}} >
                             <ResultsTableRowList result={result}/>
@@ -195,7 +193,7 @@ export const ResultsTableRow:FC<Props> = memo( ( props ) => {
         <TableRow></TableRow>
         </>
     )
-})
+}
 
 
 
