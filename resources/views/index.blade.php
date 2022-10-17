@@ -11,8 +11,5 @@
 	</head>
 	<body>
 		<div id="root"></div>
-		<script async
-		src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google-map.apikey') }}&libraries=places">
-		</script>
 	</body>
 </html>
