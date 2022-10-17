@@ -14,7 +14,7 @@ export const useFavorite = () => {
 
 
     //お気に入り情報登録処理
-    const storeFavorite = (name:string, placeId:string, rate:string, userRatingsTotal:string, photoUrl:string, photoAttribution:string) => {
+    const storeFavorite = (name:string, placeId:string, rate:string, userRatingsTotal:string, photoReference:string, photoAttribution:string) => {
 
         if(!userInfo.isLogin) {
             return;
@@ -28,7 +28,7 @@ export const useFavorite = () => {
             placeId, 
             rate, 
             userRatingsTotal,
-            photoUrl,
+            photoReference,
             photoAttribution,
         }
         console.log(data);
@@ -94,7 +94,7 @@ export const useFavorite = () => {
             rate: string;
             updated_at: string;
             user_ratings_total: string,
-            photo_url:string;
+            photo_reference: string;
             photo_attribution: string;
         }[] = [{
             created_at: '',
@@ -108,11 +108,12 @@ export const useFavorite = () => {
             rate: '',
             updated_at: '',
             user_ratings_total: '',
-            photo_url: '',
+            photo_reference: '',
             photo_attribution: ''
         }]
 
         await axios.post('/api/favorite/index', data).then( res => {
+            console.log(res.data)
             favorites = res.data[0].favorites;
         }).catch(e => {
             console.log(e);
@@ -131,7 +132,7 @@ export const useFavorite = () => {
                 placeId: favorite.place_id,
                 rate: favorite.rate,
                 userRatingsTotal: favorite.user_ratings_total,
-                photoUrl: favorite.photo_url,
+                photoReference: favorite.photo_reference,
                 photoAttribution: favorite.photo_attribution
             }
         })

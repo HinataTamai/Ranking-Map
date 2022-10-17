@@ -11,7 +11,7 @@ class Favorite extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'place_id', 'rate', 'user_ratings_total', 'photo_attribution', 'photo_url'];
+    protected $fillable = ['name', 'place_id', 'rate', 'user_ratings_total', 'photo_attribution', 'photo_reference'];
 
     public function users () {
         return $this->belongsToMany(User::class);
