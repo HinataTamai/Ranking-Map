@@ -11,12 +11,12 @@ import StarIcon from '@mui/icons-material/Star';
 import { resultType } from '../../types/SearchResults';
 import { ResultsTableRowList } from './ResultsTableRowList';
 import { RouteButton } from '../atoms/RouteButton';
-import { PlaceImage } from '../atoms/PlaceImage';
 import { useFavorite } from '../../hooks/api/useFavorite';
 import { displayItems } from './ResultsTable';
 import { favoritesType } from '../../types/FavoriteTypes';
 import { AuthContext } from '../../providers/AuthProvider';
 import { useMap } from "../../hooks/api/useMap";
+import { useAlert } from "../../hooks/useAlert";
 
 
 
@@ -54,12 +54,15 @@ export const ResultsTableRow:FC<Props> =  ( props ) => {
 
     const { result, displayItems, favorites } = props;
 
+    const { getPlacePhoto } = useMap();
     const { storeFavorite, deleteFavorite } = useFavorite();
+    const { changeAlertStatus } = useAlert();
     const { userInfo } = useContext(AuthContext);
     const isLogin = userInfo.isLogin;
     
     const [isFavorite, setIsFavorite] = useState(false);
     const [open, setOpen] = useState(false);
+    const [reference, setReference] = useState('');
 
 
     const handleClickOpen = () => {
@@ -86,16 +89,27 @@ export const ResultsTableRow:FC<Props> =  ( props ) => {
 
 
 
-    //既にお気に入りに登録済の施設が検索結果に含まれる場合、isFavoriteをtrueにする
     useEffect(() => {
+        //既にお気に入りに登録済の施設が検索結果に含まれる場合、isFavoriteをtrueにする
         favorites?.forEach(favorite => {
             if(favorite.placeId === result.destinationPlaceId) {
                 setIsFavorite(true);
             }
         });
+        //画像取得処理
+        getPlacePhoto(result.photoReference).then(value => {
+            setReference(value);
+        }).catch((e) => {
+            changeAlertStatus(
+                true,
+                e.message,
+                'error',
+                'bottom',
+                'center'
+            );
+        });
     },[]);
 
-    
 
     return(
         <>
@@ -160,7 +174,11 @@ export const ResultsTableRow:FC<Props> =  ( props ) => {
                                 alignSelf: 'stretch'
                             }}
                         >
-                            <PlaceImage establishment={result} />
+                            <Box
+                                component='img' 
+                                src={`data:image/jpeg;base64,${reference}`} 
+                                sx={{ width: '100%', height: '100%', objectFit: 'cover'}}
+                            />
                         </Box>
                         <Stack spacing={2}  sx={{ width: '35%', height: '100%',}} >
                             <ResultsTableRowList result={result}/>

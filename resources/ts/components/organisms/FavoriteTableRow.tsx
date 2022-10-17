@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { styled } from '@mui/material/styles';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
@@ -11,7 +11,8 @@ import { favoriteType } from '../../types/FavoriteTypes';
 import { DeleteButton } from '../atoms/DeleteButton';
 import theme from '../../Theme';
 import { useFavorite } from '../../hooks/api/useFavorite';
-import { PlaceImage } from "../atoms/PlaceImage";
+import { useMap } from "../../hooks/api/useMap";
+import { useAlert } from "../../hooks/useAlert";
 
 
 
@@ -48,9 +49,13 @@ export const FavoriteTableRow:FC<Props> = ( props ) => {
 
     const { favorite, setDeleteCount } = props;
 
-    const [open,setOpen] = useState(false);
+    const { deleteFavorite } = useFavorite();
+    const { changeAlertStatus } = useAlert();
+    const { getPlacePhoto } = useMap();
 
-    const { deleteFavorite } = useFavorite()
+    const [open, setOpen] = useState(false);
+    const [reference ,setReference] = useState('');
+
 
 
     const handleClickDelete = () => {
@@ -58,6 +63,19 @@ export const FavoriteTableRow:FC<Props> = ( props ) => {
         setDeleteCount(prev => prev + 1);
     }
 
+    useEffect(() => {
+        getPlacePhoto(favorite.photoReference).then(value => {
+            setReference(value);
+        }).catch(e => {
+            changeAlertStatus(
+                true,
+                e.message,
+                'error',
+                'bottom',
+                'center'
+            )
+        })
+    }, []);
 
 
     return(
@@ -102,7 +120,11 @@ export const FavoriteTableRow:FC<Props> = ( props ) => {
                                 alignSelf: 'stretch'
                             }}
                         >
-                            <PlaceImage establishment={favorite} />
+                            <Box
+                                component='img' 
+                                src={`data:image/jpeg;base64,${reference}`} 
+                                sx={{ width: '100%', height: '100%', objectFit: 'cover'}}
+                            />
                         </Box>
                         <Stack 
                             spacing={ document.documentElement.clientWidth < 834 ? 2 :3} 
