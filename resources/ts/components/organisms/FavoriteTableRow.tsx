@@ -54,7 +54,6 @@ export const FavoriteTableRow:FC<Props> = ( props ) => {
     const { getPlacePhoto } = useMap();
 
     const [open, setOpen] = useState(false);
-    const [reference ,setReference] = useState('');
 
 
 
@@ -62,20 +61,6 @@ export const FavoriteTableRow:FC<Props> = ( props ) => {
         deleteFavorite(favorite.placeId);
         setDeleteCount(prev => prev + 1);
     }
-
-    useEffect(() => {
-        getPlacePhoto(favorite.photoReference).then(value => {
-            setReference(value);
-        }).catch(e => {
-            changeAlertStatus(
-                true,
-                e.message,
-                'error',
-                'bottom',
-                'center'
-            )
-        })
-    }, []);
 
 
     return(
@@ -117,14 +102,20 @@ export const FavoriteTableRow:FC<Props> = ( props ) => {
                         <Box 
                             sx={{
                                 width: {xs:'50%', sm:'40%', md:'32%', lg:'30%'},
-                                alignSelf: 'stretch'
                             }}
                         >
                             <Box
                                 component='img' 
-                                src={`data:image/jpeg;base64,${reference}`} 
+                                src={`data:image/jpeg;base64,${favorite.photoData}`} 
                                 sx={{ width: '100%', height: '100%', objectFit: 'cover'}}
                             />
+                            <Typography sx={{display: 'inline', fontSize: '0.7rem'}}>
+                                画像帰属先：
+                            </Typography>
+                            <Typography sx={{fontSize: '0.7rem', wordBreak: 'break-all'}} 
+                            component='a' href={favorite.photoAttribution.split(/["<>]/)[2]} >
+                                {favorite.photoAttribution.split(/["<>]/)[4]}
+                            </Typography>
                         </Box>
                         <Stack 
                             spacing={ document.documentElement.clientWidth < 834 ? 2 :3} 

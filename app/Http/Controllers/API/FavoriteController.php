@@ -32,7 +32,7 @@ class FavoriteController extends Controller
                 'place_id' => $request->placeId, 
                 'rate' => $request->rate, 
                 'user_ratings_total' => $request->userRatingsTotal,
-                'photo_reference' => $request->photoReference,
+                'photo_data' => $request->photoData,
                 'photo_attribution' => $request->photoAttribution,
             ]);
 
@@ -42,7 +42,7 @@ class FavoriteController extends Controller
             $favorite->name = $request->name;
             $favorite->rate = $request->rate;
             $favorite->user_ratings_total = $request->userRatingsTotal;
-            $favorite->photo_reference = $request->photoReference;
+            $favorite->photo_data = $request->photoData;
             $favorite->photo_attribution = $request->photoAttribution;
             $favorite->save();
         }

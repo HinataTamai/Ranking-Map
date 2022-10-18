@@ -323,7 +323,7 @@ export const useMap = () => {
         }).then(res => {
             photo = convBase64(res.data);
         }).catch(e => {
-            throw({message: '画像の取得に失敗しました。'});
+            throw({message: '一部施設の画像の取得に失敗しました。'});
         });
         return photo;
     }

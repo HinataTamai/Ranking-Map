@@ -1,5 +1,5 @@
 import { FC, memo, useContext, useEffect, useState } from "react";
-import { Box, Collapse, Divider, IconButton, Stack} from '@mui/material';
+import { Box, Collapse, Divider, IconButton, Stack, Typography} from '@mui/material';
 import { styled } from '@mui/material/styles';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
@@ -17,6 +17,7 @@ import { favoritesType } from '../../types/FavoriteTypes';
 import { AuthContext } from '../../providers/AuthProvider';
 import { useMap } from "../../hooks/api/useMap";
 import { useAlert } from "../../hooks/useAlert";
+import axios from "axios";
 
 
 
@@ -62,7 +63,11 @@ export const ResultsTableRow:FC<Props> =  ( props ) => {
     
     const [isFavorite, setIsFavorite] = useState(false);
     const [open, setOpen] = useState(false);
-    const [reference, setReference] = useState('');
+    const [photoData, setPhotoData] = useState({
+        base64String:'',
+        href: '',
+        from: ''
+    });
 
 
     const handleClickOpen = () => {
@@ -71,14 +76,12 @@ export const ResultsTableRow:FC<Props> =  ( props ) => {
 
     const handleClickFavorite = () => {
         if(!isFavorite){
-            const rate = String(result.rating);
-            const userRatingsTotal = String(result.userRatingsTotal);
             storeFavorite(
                 result.name,
                 result.destinationPlaceId,
-                rate,
-                userRatingsTotal,
-                result.photoReference,
+                String(result.rating),
+                String(result.userRatingsTotal),
+                photoData.base64String,
                 result.photoAttribution
             );
         } else {
@@ -96,17 +99,40 @@ export const ResultsTableRow:FC<Props> =  ( props ) => {
                 setIsFavorite(true);
             }
         });
-        //画像取得処理
-        getPlacePhoto(result.photoReference).then(value => {
-            setReference(value);
-        }).catch((e) => {
-            changeAlertStatus(
-                true,
-                e.message,
-                'error',
-                'bottom',
-                'center'
-            );
+
+        //検索結果が既に画像が保存されている施設であるか判定
+        axios.post('/api/place_photos/get',{
+            placeId: result.destinationPlaceId
+        }).then(res => {
+            if(res.data.status === 200) {   
+                //画像保存済みの場合
+                setPhotoData(prev => ({
+                    ...prev,
+                    base64String: res.data.photo_data,
+                    href: res.data.photo_attribution.split(/["<>]/)[2],
+                    from: res.data.photo_attribution.split(/["<>]/)[4]
+                }));
+            } else {    
+                //保存されていない場合
+                //画像の取得と取得した画像の保存
+                getPlacePhoto(result.photoReference).then(value => {
+                    setPhotoData(prev => ({
+                        ...prev,
+                        base64String: value,
+                        href: result.photoAttribution.split(/["<>]/)[2],
+                        from: result.photoAttribution.split(/["<>]/)[4]
+                    }));
+                    axios.post('/api/place_photos/store', {
+                        placeId: result.destinationPlaceId,
+                        photoData: value,
+                        photoAttribution: result.photoAttribution
+                    });
+                }).catch((e) => {
+                    throw(e);
+                });
+            }
+        }).catch(e => {
+            changeAlertStatus(true, e.message, 'error', 'bottom', 'center');
         });
     },[]);
 
@@ -164,21 +190,27 @@ export const ResultsTableRow:FC<Props> =  ( props ) => {
                     </IconButton>
                     <Box sx={{
                         display: 'flex',
-                        justifyContent:{xs:'space-around', md:'flex-start'},
-                        alignItems: {xs:'center'},
+                        justifyContent: 'space-around',
+                        alignItems: 'center',
                         pl: {md:'10%'}
                     }}>
                         <Box 
                             sx={{
                                 width: {xs:'50%', sm:'40%', md:'32%', lg:'30%'},
-                                alignSelf: 'stretch'
                             }}
                         >
                             <Box
                                 component='img' 
-                                src={`data:image/jpeg;base64,${reference}`} 
+                                src={`data:image/jpeg;base64,${photoData.base64String}`} 
                                 sx={{ width: '100%', height: '100%', objectFit: 'cover'}}
                             />
+                            <Typography sx={{display: 'inline', fontSize: '0.7rem'}}>
+                                画像帰属先：
+                            </Typography>
+                            <Typography sx={{fontSize: '0.7rem', wordBreak: 'break-all'}} 
+                            component='a' href={photoData.href} >
+                                {photoData.from}
+                            </Typography>
                         </Box>
                         <Stack spacing={2}  sx={{ width: '35%', height: '100%',}} >
                             <ResultsTableRowList result={result}/>

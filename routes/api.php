@@ -8,6 +8,7 @@ use App\Http\Controllers\API\SearchCriteriaController;
 use App\Http\Controllers\API\LoginWithGoogleController;
 use App\Http\Controllers\API\IdentityProviderController;
 use App\Http\Controllers\API\PlacesApiController;
+use App\Http\Controllers\API\PhotoDataController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +35,9 @@ Route::post('search', [PlacesApiController::class, 'search']);
 Route::post('photo', [PlacesApiController::class, 'getPlacePhoto']);
 Route::post('geometry', [PlacesApiController::class, 'getLocation']);
 
+//PlacePhotos関連のルーティング
+Route::post('place_photos/store', [PhotoDataController::class, 'store']);
+Route::post('place_photos/get', [PhotoDataController::class, 'getData']);
 
 //Laravel側でアクセス制限を行いたいルーティングにミドルウェアのauth:sanctumを設定する。
 Route::middleware('auth:sanctum')->group(function() {
@@ -49,6 +53,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::post('criteria/index', [SearchCriteriaController::class, 'index']);
     Route::post('criteria/store', [SearchCriteriaController::class, 'store']);
     Route::post('criteria/delete', [SearchCriteriaController::class, 'delete']);
+
 });
 
 

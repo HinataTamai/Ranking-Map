@@ -14,7 +14,7 @@ export const useFavorite = () => {
 
 
     //お気に入り情報登録処理
-    const storeFavorite = (name:string, placeId:string, rate:string, userRatingsTotal:string, photoReference:string, photoAttribution:string) => {
+    const storeFavorite = (name:string, placeId:string, rate:string, userRatingsTotal:string, photoData:string, photoAttribution:string) => {
 
         if(!userInfo.isLogin) {
             return;
@@ -28,7 +28,7 @@ export const useFavorite = () => {
             placeId, 
             rate, 
             userRatingsTotal,
-            photoReference,
+            photoData,
             photoAttribution,
         }
         console.log(data);
@@ -94,7 +94,7 @@ export const useFavorite = () => {
             rate: string;
             updated_at: string;
             user_ratings_total: string,
-            photo_reference: string;
+            photo_data: string;
             photo_attribution: string;
         }[] = [{
             created_at: '',
@@ -108,7 +108,7 @@ export const useFavorite = () => {
             rate: '',
             updated_at: '',
             user_ratings_total: '',
-            photo_reference: '',
+            photo_data: '',
             photo_attribution: ''
         }]
 
@@ -132,7 +132,7 @@ export const useFavorite = () => {
                 placeId: favorite.place_id,
                 rate: favorite.rate,
                 userRatingsTotal: favorite.user_ratings_total,
-                photoReference: favorite.photo_reference,
+                photoData: favorite.photo_data,
                 photoAttribution: favorite.photo_attribution
             }
         })

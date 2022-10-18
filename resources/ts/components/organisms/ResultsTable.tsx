@@ -149,9 +149,9 @@ export const ResultsTable: FC = memo( () => {
     return(
         <Box sx={{
             width:{ xs:'98%', sm:'90%',md:'80%'},
-            maxWidth: 1125,
+            maxWidth: 800,
             mx: 'auto',
-            mt:3
+            my:3
             }}>
             <Box sx={{
                 display: {
