@@ -100,7 +100,7 @@ export const useSearchCriteria = () => {
                 changeAlertStatus(
                     true,
                     '検索条件の変更に失敗しました。',
-                    'success',
+                    'error',
                     'bottom',
                     'center'
                 );
@@ -110,7 +110,7 @@ export const useSearchCriteria = () => {
             changeAlertStatus(
                 true,
                 '検索条件の変更に失敗しました。',
-                'success',
+                'error',
                 'bottom',
                 'center'
             );
@@ -136,7 +136,7 @@ export const useSearchCriteria = () => {
                 changeAlertStatus(
                     true,
                     '検索条件の初期化に失敗しました。',
-                    'success',
+                    'error',
                     'bottom',
                     'center'
                 );
@@ -146,7 +146,7 @@ export const useSearchCriteria = () => {
             changeAlertStatus(
                 true,
                 '検索条件の初期化に失敗しました。',
-                'success',
+                'error',
                 'bottom',
                 'center'
             );
