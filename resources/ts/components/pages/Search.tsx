@@ -187,7 +187,7 @@ const Search:FC  = () => {
     return(
         <HeaderAndFooterLayout>
         <Stack 
-            spacing={{xs:2, sm:5}} 
+            spacing={{xs:3, sm:5}} 
             sx={{
                 my: '10vw',
                 mx: 'auto',
