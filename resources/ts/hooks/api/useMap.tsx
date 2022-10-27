@@ -1,5 +1,6 @@
+import { useContext } from "react";
 import axios from "axios";
-import { useContext, useState } from "react";
+
 import { DataTableContext } from "../../providers/DataTableProvider";
 import { SearchCriteriaContext } from "../../providers/SearchCriteriaProvider";
 import { resultsType } from "../../types/SearchResults";

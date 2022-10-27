@@ -1,10 +1,9 @@
-import { useAlert } from "../useAlert";
-import { useNavigate } from "react-router";
-import { useAuth } from "./useAuth";
-import axios from "axios";
-import { string } from "prop-types";
-import { Criteria } from "../../components/pages/Search";
 import { useContext } from "react";
+import { useNavigate } from "react-router";
+import axios from "axios";
+
+import { useAlert } from "../useAlert";
+import { Criteria } from "../../components/pages/Search";
 import { AuthContext } from "../../providers/AuthProvider";
 
 
