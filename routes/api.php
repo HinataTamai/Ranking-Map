@@ -9,6 +9,7 @@ use App\Http\Controllers\API\LoginWithGoogleController;
 use App\Http\Controllers\API\IdentityProviderController;
 use App\Http\Controllers\API\PlacesApiController;
 use App\Http\Controllers\API\PhotoDataController;
+use App\Http\Controllers\API\Auth\ForgotPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 Route::get('confirm', [AuthController::class, 'confirm']);
+
+//パスワードリセット関連のルーティング
+Route::post('password/request', [ForgotPasswordController::class, 'sendResetLinkEmail']); 
+Route::post('password/reset', [ForgotPasswordController::class, 'resetPassword']); 
 
 //Google maps Places API 関連のルーティング
 Route::post('search', [PlacesApiController::class, 'search']);

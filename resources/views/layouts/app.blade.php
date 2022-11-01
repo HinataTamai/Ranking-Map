@@ -23,8 +23,6 @@
             @yield('content')
         </main>
     </div>
-    <script async
-		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAg3gR4-1foCIc2ccUvFJwW2vrxtLNn7_Y&libraries=places">
-	</script>
+
 </body>
 </html>
