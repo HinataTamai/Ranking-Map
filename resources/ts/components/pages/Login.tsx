@@ -69,15 +69,7 @@ const Login:FC  =  memo(() => {
         });
     }
 
-    const forgotPassword = () => {
-        axios.post('api/password/request',{email:'tamahina30@gmail.com'}).then(res => {
-            console.log('status: OK');
-            console.log(res);
-        }).catch(e => {
-            console.log('status: ERROR');
-            console.log(e);
-        })
-    }
+
 
 
 
@@ -126,7 +118,7 @@ const Login:FC  =  memo(() => {
                             />
                             <FormHelperText>{loginInput.error_list.password}</FormHelperText>
                         </FormControl>
-                        <Button onClick={forgotPassword}>forgot password</Button>
+
                         <FormControlLabel 
                             control={<Checkbox name='remember' checked={loginInput.remember} onChange={handleClickRemember} />} 
                             label="ログイン状態を維持する" 
