@@ -170,7 +170,7 @@ export const ResultsTable: FC = memo( () => {
                             isLoading 
                             ?  <TableRow>
                                     <TableCell colSpan={5}>
-                                        <LoadingCircle interval={200} />
+                                        <LoadingCircle interval={240} />
                                     </TableCell>
                                 </TableRow>
                             :    (rowsPerPage > 0

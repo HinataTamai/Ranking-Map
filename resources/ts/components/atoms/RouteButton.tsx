@@ -34,7 +34,7 @@ export const RouteButton:FC<Props> = memo((props) => {
             py: {md:1, lg:2},
         }}
         onClick={() => {
-            if(location == '現在地') {
+            if(location === '現在地') {
                 handleClickButton('https://www.google.com/maps/dir/?api=1&destination=' + name + '&destination_place_id=' + placeId + '&travelmode=walking');
             } else {
                 handleClickButton('https://www.google.com/maps/dir/?api=1&origin=' + originLat + ',' + originLng  + '&destination=' + name + '&destination_place_id=' + placeId + '&travelmode=walking');

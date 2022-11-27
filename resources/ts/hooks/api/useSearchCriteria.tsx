@@ -33,18 +33,18 @@ export const useSearchCriteria = () => {
         
         await axios.post('/api/criteria/index', data).then(res => {
             const data = res.data;
-            if(data.status == 200) {
-                criteria.status = data.status == undefined ? 400 : data.status;
-                criteria.location = data.location == undefined ? '' : data.location;
-                criteria.keyword = data.keyword == undefined ? '' : data.keyword;
-                criteria.radius = data.radius == undefined ? '' : data.radius;
-                criteria.rateCriteria = data.rateCriteria == undefined ? '' : data.rateCriteria;
+            if(data.status === 200) {
+                criteria.status = data.status === undefined ? 400 : data.status;
+                criteria.location = data.location === undefined ? '' : data.location;
+                criteria.keyword = data.keyword === undefined ? '' : data.keyword;
+                criteria.radius = data.radius === undefined ? '' : data.radius;
+                criteria.rateCriteria = data.rateCriteria === undefined ? '' : data.rateCriteria;
                 criteria.ratingsTotalCriteria =
-                    data.ratingsTotalCriteria == undefined ? '' : data.ratingsTotalCriteria;
+                    data.ratingsTotalCriteria === undefined ? '' : data.ratingsTotalCriteria;
                 criteria.distanceCriteria = 
-                data.distanceCriteria == undefined ? '' : data.distanceCriteria;
-                criteria.onlyIsOpen = data.onlyIsOpen == undefined ? '' : data.onlyIsOpen;
-            } else if (data.status == 204 || data.status == 401) {
+                data.distanceCriteria === undefined ? '' : data.distanceCriteria;
+                criteria.onlyIsOpen = data.onlyIsOpen === undefined ? '' : data.onlyIsOpen;
+            } else if (data.status === 204 || data.status === 401) {
                 return {status: data.status};
             }
         }).catch(e => {
@@ -86,7 +86,7 @@ export const useSearchCriteria = () => {
         }
 
         await axios.post('/api/criteria/store', data).then(res => {
-            if( res.data.status == 200) {
+            if( res.data.status === 200) {
                 navigate('/');
                 changeAlertStatus(
                     true,
@@ -122,7 +122,7 @@ export const useSearchCriteria = () => {
         const userId = userInfo.id;
         const data = { userId }
         await axios.post('api/criteria/delete', data).then(res => {
-            if( res.data.status == 200) {
+            if( res.data.status === 200) {
                 navigate('/');
                 changeAlertStatus(
                     true,

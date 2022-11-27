@@ -89,7 +89,7 @@ export const useSort = () => {
         for (let i = 1; i< data.length + 1; i++) {
             if(dataByRate[i] && dataByRatingsTotal[i] && dataByDistance[i]){
                 
-                if ( dataByRate[i].rating == dataByRate[i-1].rating ) {
+                if ( dataByRate[i].rating === dataByRate[i-1].rating ) {
                     
                     //2つのデータのdata内での位置を取得
                     let data1 = data.indexOf(dataByRate[i-1]);
@@ -99,14 +99,14 @@ export const useSort = () => {
                     indexNumbersByCriteria[data1][0] = indexNumbersByCriteria[data2][0]
                 }
                 //以下「dataByrRatingsTotal」、「dataByDistance」も同様に処理。
-                if ( dataByRatingsTotal[i].userRatingsTotal == dataByRatingsTotal[i-1].userRatingsTotal ) {
+                if ( dataByRatingsTotal[i].userRatingsTotal === dataByRatingsTotal[i-1].userRatingsTotal ) {
                     let data1 = data.indexOf(dataByRatingsTotal[i-1]);
                     let data2 = data.indexOf(dataByRatingsTotal[i]);
 
                     indexNumbersByCriteria[data1][1] = indexNumbersByCriteria[data2][1]
                 }
 
-                if ( dataByDistance[i].distance == dataByDistance[i-1].distance ) {
+                if ( dataByDistance[i].distance === dataByDistance[i-1].distance ) {
                     let data1 = data.indexOf(dataByDistance[i-1]);
                     let data2 = data.indexOf(dataByDistance[i]);
 
@@ -153,7 +153,7 @@ export const useSort = () => {
             result.rank = index + 1;
             if ( index > 0 ) {
                 const previousElement = data[index -1];
-                if ( previousElement.sumRank ==  result.sumRank ) {
+                if ( previousElement.sumRank ===  result.sumRank ) {
                     result.rank = previousElement.rank;
                 };
             };

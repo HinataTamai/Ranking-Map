@@ -101,7 +101,7 @@ export const useMap = () => {
         }
         await axios.post('/api/geometry',request).then(res => {
             const status = res.data.status;
-            if( status == 'OK') {
+            if( status === 'OK') {
                 geometry = res.data.candidates[0].geometry.location;
             } else {
                 switch(status) {
@@ -246,7 +246,7 @@ export const useMap = () => {
             lng:0
         }
 
-        if( location == '現在地') {
+        if( location === '現在地') {
             await getPosition().then(( value ) => {
                 originLocation.lat = value.lat;
                 originLocation.lng = value.lng;
@@ -278,7 +278,7 @@ export const useMap = () => {
 
         await axios.post('/api/search', request).then(res => {
             const status = res.data.status;
-            if(status == 'OK') {
+            if(status === 'OK') {
                 let data = res.data.results;
                 
                 data = createData(data, originLocation);

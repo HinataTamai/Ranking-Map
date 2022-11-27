@@ -38,7 +38,7 @@ export const ResultsTableRowList:FC<Props> = memo((props) => {
                 <StyledTypography variant='body1'>
                     {collapseDisplayItems[0].label} : 
                 </StyledTypography>
-                { collapseDisplayItems[0].label == '距離'
+                { collapseDisplayItems[0].label === '距離'
                 ?
                     <Typography variant='body1'>
                         {result[collapseDisplayItems[0].value]}km
@@ -55,7 +55,7 @@ export const ResultsTableRowList:FC<Props> = memo((props) => {
                 <StyledTypography variant='body1'>
                     {collapseDisplayItems[0].label} : 
                 </StyledTypography>
-                { collapseDisplayItems[0].label == '距離'
+                { collapseDisplayItems[0].label === '距離'
                 ?
                     <Typography variant='body1'>
                         {result[collapseDisplayItems[0].value]}km
@@ -70,7 +70,7 @@ export const ResultsTableRowList:FC<Props> = memo((props) => {
                 <StyledTypography variant='body1'>
                     {collapseDisplayItems[1].label} : 
                 </StyledTypography>
-                { collapseDisplayItems[1].label == '距離'
+                { collapseDisplayItems[1].label === '距離'
                 ?
                     <Typography variant='body1'>
                         {result[collapseDisplayItems[1].value]}km
